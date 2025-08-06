@@ -9,6 +9,6 @@ Werkzeug==2.3.7
 Jinja2==3.1.2
 dataframe-image==0.2.1
 Pillow==10.0.0
-waitress==2.1.2
 gunicorn==21.2.0
 setuptools>=65.0.0
+wheel>=0.40.0 
