@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Selecciona el registro</title>
+    <style>
+        body { background: #0a192f; color: #e0e7ef; font-family: 'Montserrat', Arial, sans-serif; margin: 0; }
+        .container { max-width: 520px; margin: 60px auto; background: #16213e; border-radius: 18px; box-shadow: 0 6px 32px #00c3ff44; padding: 38px 32px; }
+        h2 { color: #00c3ff; margin-bottom: 28px; text-align: center; }
+        .opcion { background: #233554; border-radius: 10px; padding: 18px 16px; margin-bottom: 18px; display: flex; align-items: center; transition: background 0.2s; }
+        .opcion:hover { background: #1a233a; }
+        .radio { margin-right: 18px; accent-color: #00c3ff; width: 1.2em; height: 1.2em; }
+        .info { flex: 1; }
+        .info strong { color: #00c3ff; }
+        button { background: linear-gradient(90deg, #00c3ff 60%, #2d89ef 100%); color: #192133; border: none; border-radius: 10px; padding: 16px 0; width: 100%; font-size: 1.2rem; font-weight: 700; cursor: pointer; margin-top: 18px; }
+        button:hover { background: linear-gradient(90deg, #2d89ef 60%, #00c3ff 100%); color: #fff; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>Selecciona el registro correcto</h2>
+    <form method="get" action="/seleccion_tipo_llenado">
+        <input type="hidden" name="user_id" value="{{ user_id }}">
+        {% for op in opciones %}
+        <label class="opcion">
+            <input class="radio" type="radio" name="fila_idx" value="{{ op.idx }}" required>
+            <div class="info">
+                <strong>Sitio A:</strong> {{ op.sitio_a }}<br>
+                <strong>Sitio B:</strong> {{ op.sitio_b }}<br>
+                <strong>Análisis:</strong> {{ op.analisis }}
+            </div>
+        </label>
+        {% endfor %}
+        <button type="submit">Continuar</button>
+    </form>
+</div>
+</body>
+</html> 

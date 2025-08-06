@@ -1,0 +1,1126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Llenado Automático de Plantilla</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body { 
+      background: #0a192f; 
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      background-repeat: no-repeat;
+      color: #e0e7ef; 
+      font-family: 'Montserrat', Arial, sans-serif; 
+      margin: 0; 
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* Overlay para mejorar la legibilidad */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(10, 25, 47, 0.7);
+      z-index: -1;
+    }
+
+    /* Estrellas animadas */
+    body::after {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: 
+        radial-gradient(2px 2px at 20px 30px, #eee, transparent),
+        radial-gradient(2px 2px at 40px 70px, rgba(255,255,255,0.8), transparent),
+        radial-gradient(1px 1px at 90px 40px, #fff, transparent),
+        radial-gradient(1px 1px at 130px 80px, rgba(255,255,255,0.6), transparent),
+        radial-gradient(2px 2px at 160px 30px, #ddd, transparent);
+      background-repeat: repeat;
+      background-size: 200px 100px;
+      animation: sparkle 4s linear infinite;
+      z-index: -2;
+    }
+
+    @keyframes sparkle {
+      from { transform: translateY(0px); }
+      to { transform: translateY(-100px); }
+    }
+    .main-content { 
+      max-width: 600px; 
+      margin: 40px auto; 
+    }
+    .glass-card { 
+      background: rgba(22, 33, 62, 0.95); 
+      border-radius: 20px; 
+      box-shadow: 0 20px 40px rgba(0, 195, 255, 0.2); 
+      padding: 40px 35px; 
+      backdrop-filter: blur(15px);
+      border: 2px solid rgba(0, 195, 255, 0.1);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .glass-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, rgba(0, 195, 255, 0.05) 0%, transparent 50%);
+      pointer-events: none;
+    }
+    .logo-header { 
+      text-align: center; 
+      margin-bottom: 30px; 
+      position: relative;
+      z-index: 1;
+    }
+    .logo-header img { 
+      width: 120px; 
+      height: auto;
+      margin-bottom: 15px;
+      filter: drop-shadow(0 4px 8px rgba(0, 195, 255, 0.3));
+    }
+    .logo-header h1 { 
+      color: #00c3ff; 
+      margin: 10px 0 0 0; 
+      font-size: 2rem;
+      font-weight: 700;
+      text-shadow: 0 2px 10px rgba(0, 195, 255, 0.3);
+      letter-spacing: 1px;
+    }
+    .logo-header p { 
+      color: #b5c7e6; 
+      margin: 5px 0 0 0; 
+      font-size: 1.1rem;
+      font-weight: 400;
+      opacity: 0.9;
+    }
+    .dropzone { 
+      background: rgba(35, 53, 84, 0.8); 
+      border: 2px dashed rgba(0, 195, 255, 0.6); 
+      border-radius: 15px; 
+      padding: 28px 20px; 
+      text-align: center; 
+      margin-bottom: 20px; 
+      cursor: pointer; 
+      transition: all 0.3s ease; 
+      backdrop-filter: blur(10px);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .dropzone::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, rgba(0, 195, 255, 0.05) 0%, transparent 100%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    
+    .dropzone:hover {
+      background: rgba(26, 35, 58, 0.9);
+      border-color: rgba(0, 195, 255, 0.8);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0, 195, 255, 0.2);
+    }
+    
+    .dropzone:hover::before {
+      opacity: 1;
+    }
+    
+    .dropzone.dragover { 
+      background: rgba(26, 35, 58, 0.95);
+      border-color: #00c3ff;
+      transform: scale(1.02);
+      box-shadow: 0 12px 35px rgba(0, 195, 255, 0.3);
+    }
+    
+    .dropzone i { 
+      font-size: 2.5rem; 
+      color: #00c3ff; 
+      margin-bottom: 12px; 
+      display: block;
+      transition: all 0.3s ease;
+    }
+    
+    .dropzone:hover i {
+      transform: scale(1.1);
+      color: #ffffff;
+    }
+    .neon-btn { 
+      background: linear-gradient(135deg, #00c3ff 0%, #0099cc 100%); 
+      color: #ffffff; 
+      border: none; 
+      border-radius: 12px; 
+      padding: 16px 24px; 
+      width: 100%; 
+      font-size: 1.1rem; 
+      font-weight: 600; 
+      cursor: pointer; 
+      margin-top: 16px; 
+      margin-bottom: 12px; 
+      transition: all 0.3s ease; 
+      box-shadow: 0 8px 25px rgba(0, 195, 255, 0.3);
+      position: relative;
+      overflow: hidden;
+      font-family: 'Montserrat', Arial, sans-serif;
+      letter-spacing: 0.5px;
+    }
+    
+    .neon-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.5s;
+    }
+    
+    .neon-btn:hover { 
+      background: linear-gradient(135deg, #0099cc 0%, #00c3ff 100%); 
+      transform: translateY(-2px);
+      box-shadow: 0 12px 35px rgba(0, 195, 255, 0.5);
+    }
+    
+    .neon-btn:hover::before {
+      left: 100%;
+    }
+    
+    .neon-btn:active {
+      transform: translateY(0);
+      box-shadow: 0 6px 20px rgba(0, 195, 255, 0.4);
+    }
+    .form-step { 
+      display: none; 
+    }
+    .form-step.active { 
+      display: block; 
+    }
+    
+    /* Botones secundarios (Anterior) */
+    .btn-secondary {
+      background: rgba(0, 195, 255, 0.1);
+      color: #00c3ff;
+      border: 2px solid rgba(0, 195, 255, 0.3);
+      border-radius: 12px;
+      padding: 16px 24px;
+      width: 100%;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 16px;
+      margin-bottom: 12px;
+      transition: all 0.3s ease;
+      font-family: 'Montserrat', Arial, sans-serif;
+      letter-spacing: 0.5px;
+      text-decoration: none;
+      display: inline-block;
+      text-align: center;
+    }
+    
+    .btn-secondary:hover {
+      background: rgba(0, 195, 255, 0.2);
+      border-color: rgba(0, 195, 255, 0.5);
+      transform: translateY(-2px);
+      color: #00c3ff;
+      text-decoration: none;
+    }
+    
+    .btn-secondary:active {
+      transform: translateY(0);
+    }
+    
+    /* Contenedor para botones múltiples */
+    .button-container {
+      display: flex;
+      gap: 16px;
+      margin-top: 16px;
+    }
+    
+    .button-container .neon-btn,
+    .button-container .btn-secondary {
+      flex: 1;
+      margin: 0;
+    }
+    .file-info { 
+      color: #7b8794; 
+      font-size: 1rem; 
+      margin-bottom: 8px; 
+    }
+    .preview-list { 
+      display: flex; 
+      flex-wrap: wrap; 
+      gap: 8px; 
+      margin-top: 8px; 
+    }
+    .preview-img { 
+      width: 48px; 
+      height: 48px; 
+      object-fit: cover; 
+      border-radius: 8px; 
+      border: 1px solid #00c3ff44; 
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+    
+    .preview-img:hover {
+      transform: scale(1.2);
+      border-color: #00c3ff;
+      box-shadow: 0 4px 15px rgba(0, 195, 255, 0.4);
+      z-index: 10;
+    }
+    
+    /* Modal de previsualización */
+    .preview-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      backdrop-filter: blur(5px);
+    }
+    
+    .preview-modal.active {
+      display: flex;
+    }
+    
+    .preview-modal-content {
+      background: rgba(22, 33, 62, 0.95);
+      border-radius: 15px;
+      padding: 20px;
+      max-width: 90%;
+      max-height: 90%;
+      position: relative;
+      border: 2px solid rgba(0, 195, 255, 0.3);
+      box-shadow: 0 20px 40px rgba(0, 195, 255, 0.3);
+    }
+    
+    .preview-modal-close {
+      position: absolute;
+      top: -15px;
+      right: -15px;
+      background: #ff4757;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      cursor: pointer;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+    
+    .preview-modal-close:hover {
+      background: #ff3742;
+      transform: scale(1.1);
+    }
+    
+    .preview-modal img {
+      max-width: 100%;
+      max-height: 70vh;
+      border-radius: 10px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+    
+    .preview-modal .file-info {
+      margin-top: 15px;
+      text-align: center;
+      color: #e0e7ef;
+    }
+    
+    .preview-modal .file-name {
+      font-weight: 600;
+      color: #00c3ff;
+      margin-bottom: 5px;
+    }
+    
+    .preview-modal .file-size {
+      font-size: 0.9rem;
+      color: #8892b0;
+    }
+    
+    /* Tooltip de previsualización */
+    .preview-tooltip {
+      position: absolute;
+      background: rgba(0, 0, 0, 0.9);
+      color: white;
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      pointer-events: none;
+      z-index: 100;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      white-space: nowrap;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .preview-tooltip.show {
+      opacity: 1;
+    }
+    .success-box {
+      background: #e6fff2;
+      border: 2px solid #00c37a;
+      color: #008c4a;
+      font-weight: 700;
+      padding: 10px 0 10px 0;
+      margin-bottom: 14px;
+      border-radius: 10px;
+      box-shadow: 0 2px 12px #00c3ff22;
+      width: 100%;
+      text-align: center;
+      font-size: 1.08rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 24px;
+    }
+    .success-box i {
+      color: #00c37a;
+      font-size: 1.2em;
+      margin-right: 6px;
+    }
+    /* Recuadro de Enlace seleccionado (ajuste visual) */
+    .analisis-info-box {
+      max-width: 400px;
+      margin: 25px auto 20px auto;
+      background: rgba(26, 35, 58, 0.9);
+      border-left: 5px solid #00c3ff;
+      border-radius: 15px;
+      box-shadow: 0 8px 25px rgba(0, 195, 255, 0.2);
+      padding: 20px 25px;
+      text-align: left;
+      color: #e0e7ef;
+      font-family: 'Montserrat', Arial, sans-serif;
+      font-size: 1rem;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(0, 195, 255, 0.2);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .analisis-info-box::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, rgba(0, 195, 255, 0.05) 0%, transparent 100%);
+      pointer-events: none;
+    }
+    
+    .analisis-info-box .analisis-title {
+      font-size: 1.1rem;
+      color: #00c3ff;
+      font-weight: 700;
+      margin-bottom: 12px;
+      text-shadow: 0 2px 8px rgba(0, 195, 255, 0.3);
+      position: relative;
+      z-index: 1;
+    }
+    
+    .analisis-info-box .analisis-row {
+      margin-bottom: 8px;
+      position: relative;
+      z-index: 1;
+      padding: 4px 0;
+      border-bottom: 1px solid rgba(0, 195, 255, 0.1);
+    }
+    
+    .analisis-info-box .analisis-row:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+    }
+  </style>
+</head>
+<body>
+  <!-- Encabezado eliminado para un diseño más limpio -->
+  <div class="main-content">
+    <div class="glass-card">
+      <div class="logo-header">
+        <img src="/static/images/fangio-logo.svg" alt="FANGIO TELECOM" style="width: 120px; height: auto; margin-bottom: 15px;">
+        <h1>FANGIO TELECOM</h1>
+        <p>Base de datos de Enlaces PtP</p>
+      </div>
+      <!-- MENSAJE_PLANTILLA_AQUI -->
+      <div id="formContainer">
+        <!-- ANALISIS_AQUI -->
+        <form id="autoForm" action="/procesar" method="post" enctype="multipart/form-data" autocomplete="off">
+          <input type="hidden" name="template_path" value="static/plantillas/llenadoauto.xlsx">
+          <input type="hidden" name="tipo" value="site_survey">
+          <!-- El paso 1 de ID ha sido eliminado para mostrar solo el mensaje de plantilla cargada -->
+
+          <!-- Paso Site Survey: Checkboxes dinámicos -->
+          <div class="form-step" id="stepSiteSurveyCheckboxes">
+            <h2 style="text-align:center; color:#00c3ff;">Checklist Site Survey</h2>
+            <div style="margin-bottom:10px;">
+              <input type="checkbox" id="chk_urbana" name="chk_urbana" value="1" {% if chk_urbana %}checked{% endif %}>
+              <label for="chk_urbana">Zona urbana</label>
+            </div>
+            <div style="margin-bottom:10px;">
+              <input type="checkbox" id="chk_suburbana" name="chk_suburbana" value="1" {% if chk_suburbana %}checked{% endif %}>
+              <label for="chk_suburbana">Zona suburbana</label>
+            </div>
+            <div style="margin-bottom:10px;">
+              <input type="checkbox" id="chk_rural" name="chk_rural" value="1" {% if chk_rural %}checked{% endif %}>
+              <label for="chk_rural">Zona rural</label>
+            </div>
+            <div style="margin-bottom:10px;">
+              <input type="checkbox" id="chk_ejidal" name="chk_ejidal" value="1" {% if chk_ejidal %}checked{% endif %}>
+              <label for="chk_ejidal">Zona ejidal</label>
+            </div>
+            <div style="margin-bottom:10px;">
+              <input type="checkbox" id="chk_pueblo_magico" name="chk_pueblo_magico" value="1" {% if chk_pueblo_magico %}checked{% endif %}>
+              <label for="chk_pueblo_magico">Pueblo mágico</label>
+            </div>
+          </div>
+
+          <!-- Paso 2: PDFs y eléctricas -->
+          <div class="form-step" id="step2">
+            <h2 style="text-align:center; color:#00c3ff;">Sube los archivos PDF y las imágenes eléctricas</h2>
+            <div class="dropzone" id="pdfDrop">
+              <i class="fa-solid fa-file-pdf"></i>
+              Arrastra o selecciona los PDF de la hoja 4. Estudio de información A
+              <input type="file" name="pdf_file" accept="application/pdf" multiple style="display:none">
+            </div>
+            <div class="file-info" id="pdfInfo"></div>
+            <div class="dropzone" id="imgElectricasDrop">
+              <i class="fa-solid fa-bolt"></i>
+              Sube las imágenes eléctricas para la hoja 4. Estudio de información A (máx 6)
+              <input type="file" name="imagenes_electricas" accept="image/*" multiple style="display:none">
+            </div>
+            <div class="preview-list" id="imgElectricasPreview"></div>
+            <button type="button" class="neon-btn" onclick="nextStep(3)">Siguiente</button>
+          </div>
+
+          <!-- Paso 3: Word, KMZ, imagen KML, Excel B, imagen B -->
+          <div class="form-step" id="step3">
+            <h2 style="text-align:center; color:#00c3ff;">Sube Word, KMZ, imagen KML y archivos para hoja 5</h2>
+            <div class="dropzone" id="wordDrop">
+              <i class="fa-solid fa-file-word"></i>
+              Selecciona el archivo Word para hoja 1. Analisis de Red y Frecuencia
+              <input type="file" name="word_file" accept=".docx" style="display:none" required>
+            </div>
+            <div class="file-info" id="wordInfo"></div>
+            <div class="dropzone" id="kmzDrop">
+              <i class="fa-solid fa-file-archive"></i>
+              Selecciona o arrastra el archivo KMZ aquí de la hoja 3. Formato KMZ
+              <input type="file" name="kmz" accept=".kmz" style="display:none">
+            </div>
+            <div class="file-info" id="kmzInfo"></div>
+            <div class="dropzone" id="kmlImgDrop">
+              <i class="fa-solid fa-image"></i>
+              Colocar mapa de KMZ (selecciona o arrastra la imagen) de la hoja 3. Formato KMZ
+              <input type="file" name="imagen_kmz" accept="image/*" style="display:none">
+            </div>
+            <div class="preview-list" id="kmlImgPreview"></div>
+            <div class="dropzone" id="imgB5Drop">
+              <i class="fa-solid fa-image"></i>
+              Imagen para hoja 5. Estudio de información B
+              <input type="file" name="imagen_b" accept="image/*" style="display:none">
+            </div>
+            <div class="preview-list" id="imgB5Preview"></div>
+            <div class="dropzone" id="excelB5Drop">
+              <i class="fa-solid fa-file-excel"></i>
+              Archivo Excel para 5. Estudio de información B
+              <input type="file" name="archivo_excel_b" accept=".xls,.xlsx" style="display:none">
+            </div>
+            <div class="file-info" id="excelB5Info"></div>
+            <button type="button" class="neon-btn" onclick="prevStep(2)">Anterior</button>
+            <button type="button" class="neon-btn" onclick="nextStep(4)">Siguiente</button>
+          </div>
+
+          <!-- Paso 4: Imágenes eléctricas adicionales -->
+          <div class="form-step" id="step4">
+            <h2 style="text-align:center; color:#00c3ff;">Sube imágenes eléctricas adicionales</h2>
+            <div class="dropzone" id="imgConsumoDrop">
+              <i class="fa-solid fa-image"></i>
+              Especificaciones de consumo (C14:D20)
+              <input type="file" name="img_consumo" accept="image/*" style="display:none" required>
+            </div>
+            <div class="file-info" id="imgConsumoInfo"></div>
+            <div class="dropzone" id="imgConfiguracionDrop">
+              <i class="fa-solid fa-image"></i>
+              Configuración, modelo de radio y antena (E14:G20)
+              <input type="file" name="img_configuracion" accept="image/*" style="display:none" required>
+            </div>
+            <div class="file-info" id="imgConfiguracionInfo"></div>
+            <div class="dropzone" id="imgLineaVistaDrop">
+              <i class="fa-solid fa-image"></i>
+              Línea de vista (B39:G55)
+              <input type="file" name="img_linea_vista" accept="image/*" style="display:none" required>
+            </div>
+            <div class="file-info" id="imgLineaVistaInfo"></div>
+            <button type="button" class="neon-btn" onclick="prevStep(3)">Anterior</button>
+            <button type="button" class="neon-btn" onclick="nextStep(5)">Siguiente</button>
+          </div>
+
+          <!-- Paso 4.1: Imágenes para Planos A y B -->
+          <div class="form-step" id="step4_1">
+            <h2 style="text-align:center; color:#00c3ff;">Sube imágenes para Planos A y B</h2>
+            <div style="margin-bottom:18px;">
+              <h3 style="color:#00c3ff;">4. Planos A</h3>
+              <div class="dropzone" id="planosADrop1">
+                <i class="fa-solid fa-image"></i>
+                Imagen 1 (C17:AK60)
+                <input type="file" name="planos_a_img1" accept="image/*" style="display:none">
+              </div>
+              <div class="dropzone" id="planosADrop2">
+                <i class="fa-solid fa-image"></i>
+                Imagen 2 (C69:AK123)
+                <input type="file" name="planos_a_img2" accept="image/*" style="display:none">
+              </div>
+              <div class="dropzone" id="planosADrop3">
+                <i class="fa-solid fa-image"></i>
+                Imagen 3 (C134:AK173)
+                <input type="file" name="planos_a_img3" accept="image/*" style="display:none">
+              </div>
+            </div>
+            <div style="margin-bottom:18px;">
+              <h3 style="color:#00c3ff;">5. Planos B</h3>
+              <div class="dropzone" id="planosBDrop1">
+                <i class="fa-solid fa-image"></i>
+                Imagen 1 (C17:AK60)
+                <input type="file" name="planos_b_img1" accept="image/*" style="display:none">
+              </div>
+              <div class="dropzone" id="planosBDrop2">
+                <i class="fa-solid fa-image"></i>
+                Imagen 2 (C69:AK123)
+                <input type="file" name="planos_b_img2" accept="image/*" style="display:none">
+              </div>
+              <div class="dropzone" id="planosBDrop3">
+                <i class="fa-solid fa-image"></i>
+                Imagen 3 (C134:AK173)
+                <input type="file" name="planos_b_img3" accept="image/*" style="display:none">
+              </div>
+            </div>
+            <button type="button" class="neon-btn" onclick="prevStep('4_1')">Anterior</button>
+            <button type="button" class="neon-btn" onclick="nextStep(5)">Siguiente</button>
+          </div>
+
+          <!-- Paso 5: Imágenes de torres para hoja 6 (A) -->
+          <div class="form-step" id="step5">
+            <h2 style="text-align:center; color:#00c3ff;">Sube imágenes de torres para hoja 6 (A)</h2>
+            <div class="dropzone" id="imgTorresDrop">
+              <i class="fa-solid fa-broadcast-tower"></i>
+              Sube las imágenes de torres para la hoja 6. Estudio torres y antenas A (máx 3)
+              <input type="file" name="imagenes_torres" accept="image/*" multiple style="display:none">
+            </div>
+            <div class="preview-list" id="imgTorresPreview"></div>
+            <button type="button" class="neon-btn" onclick="prevStep(4)">Anterior</button>
+            <button type="button" class="neon-btn" onclick="nextStep(6)">Siguiente</button>
+          </div>
+
+          <!-- Paso 6: Imágenes de torres para hoja 7 (B) -->
+          <div class="form-step" id="step6">
+            <h2 style="text-align:center; color:#00c3ff;">Sube imágenes de torres para hoja 7 (B)</h2>
+            <div class="dropzone" id="imgTorresBDrop">
+              <i class="fa-solid fa-broadcast-tower"></i>
+              Sube las imágenes de torres para la hoja 7. Estudio torres y antenas B (máx 3)
+              <input type="file" name="imagenes_torres_b" accept="image/*" multiple style="display:none">
+            </div>
+            <div class="preview-list" id="imgTorresBPreview"></div>
+            <button type="button" class="neon-btn" onclick="prevStep(5)">Anterior</button>
+            <button type="button" class="neon-btn" onclick="nextStep(7)">Siguiente</button>
+          </div>
+
+          <!-- Paso 7: Fotos A (reporte de fotos A) -->
+          <div class="form-step" id="step7">
+            <h2 style="text-align:center; color:#00c3ff;">Sube las imágenes para el reporte de fotos A</h2>
+            <div class="dropzone" style="cursor:default;">
+              <i class="fa-solid fa-images"></i>
+              <div style="font-size:1.1rem;font-weight:700;margin-bottom:10px;">Sube las imágenes para el reporte de fotos A (una por cada casilla)</div>
+              <div style="font-size:13px;color:#7b8794;margin-bottom:18px;">Si no subes alguna imagen, se colocará un N/A por defecto.</div>
+              <div id="fotos9Inputs" style="flex:1 1 0;display:flex;flex-direction:column;gap:10px;"></div>
+            </div>
+            <button type="button" class="neon-btn" onclick="prevStep(6)">Anterior</button>
+            <button type="button" class="neon-btn" onclick="nextStep(8)">Siguiente</button>
+          </div>
+
+          <!-- Paso 8: Fotos B (reporte de fotos B) -->
+          <div class="form-step" id="step8">
+            <h2 style="text-align:center; color:#00c3ff;">Sube las imágenes para el reporte de fotos B</h2>
+            <div class="dropzone" style="cursor:default;">
+              <i class="fa-solid fa-images"></i>
+              <div style="font-size:1.1rem;font-weight:700;margin-bottom:10px;">Sube las imágenes para el reporte de fotos B (una por cada casilla)</div>
+              <div style="font-size:13px;color:#7b8794;margin-bottom:18px;">Si no subes alguna imagen, se colocará un N/A por defecto.</div>
+              <div id="fotos10Inputs" style="display:flex;flex-direction:column;gap:10px;"></div>
+            </div>
+            <button type="button" class="neon-btn" onclick="prevStep(7)">Anterior</button>
+            <button class="neon-btn" type="submit">
+              <i class="fa-solid fa-cloud-upload-alt"></i> Subir y llenar
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="success-box">
+        <i class="fa-solid fa-file-excel"></i> Plantilla de llenado cargada correctamente
+    </div>
+  </div>
+  <script>
+    // Lógica de pasos
+    function showStep(step) {
+      document.querySelectorAll('.form-step').forEach((el) => {
+        el.classList.remove('active');
+      });
+      const stepElement = document.getElementById('step' + step);
+      if (stepElement) {
+        stepElement.classList.add('active');
+      }
+    }
+    
+    function nextStep(step) { 
+      showStep(step); 
+    }
+    
+    function prevStep(step) { 
+      showStep(step); 
+    }
+    
+    // Drag & Drop y previews
+    function setupDropzone(dropId, inputName, infoId, previewId, isImage=false) {
+      const drop = document.getElementById(dropId);
+      if (!drop) return;
+      
+      const input = drop.querySelector('input[type="file"]');
+      const info = infoId ? document.getElementById(infoId) : null;
+      const preview = previewId ? document.getElementById(previewId) : null;
+      
+      drop.addEventListener('click', (e) => { 
+        if (e.target === drop) input.click(); 
+      });
+      
+      drop.addEventListener('dragover', e => { 
+        e.preventDefault(); 
+        drop.classList.add('dragover'); 
+      });
+      
+      drop.addEventListener('dragleave', e => { 
+        e.preventDefault(); 
+        drop.classList.remove('dragover'); 
+      });
+      
+      drop.addEventListener('drop', e => { 
+        e.preventDefault(); 
+        drop.classList.remove('dragover'); 
+        input.files = e.dataTransfer.files; 
+        input.dispatchEvent(new Event('change')); 
+      });
+      
+      input.addEventListener('change', () => {
+        if (info) {
+          if (input.files.length === 0) { 
+            info.textContent = ''; 
+          } else if (input.files.length === 1) { 
+            const file = input.files[0];
+            info.innerHTML = `
+              <span style="cursor: pointer; color: #00c3ff; text-decoration: underline;" 
+                    onmouseover="this.style.color='#ffffff'" 
+                    onmouseout="this.style.color='#00c3ff'"
+                    onclick="showPreview('${file.name}', '${file.name}')">
+                Archivo seleccionado: ${file.name}
+              </span>
+              <br><small style="color: #8892b0;">Clic para previsualizar</small>
+            `;
+          } else { 
+            info.textContent = input.files.length + ' archivos seleccionados'; 
+          }
+        }
+        
+        if (preview) {
+          preview.innerHTML = '';
+          Array.from(input.files).forEach(file => {
+            if (isImage && file.type.startsWith('image/')) {
+              const img = document.createElement('img');
+              img.className = 'preview-img';
+              img.src = URL.createObjectURL(file);
+              img.dataset.fileName = file.name;
+              img.dataset.fileSize = file.size;
+              img.dataset.fileType = file.type;
+              
+              // Agregar evento de clic para previsualización
+              img.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                showPreview(file, file.name);
+              });
+              
+              // Tooltip al hacer hover
+              img.addEventListener('mouseenter', (e) => {
+                const tooltip = document.createElement('div');
+                tooltip.className = 'preview-tooltip';
+                tooltip.textContent = 'Clic para previsualizar';
+                tooltip.style.left = e.pageX + 10 + 'px';
+                tooltip.style.top = e.pageY - 30 + 'px';
+                document.body.appendChild(tooltip);
+                
+                setTimeout(() => tooltip.classList.add('show'), 100);
+                
+                img.addEventListener('mouseleave', () => {
+                  tooltip.remove();
+                }, { once: true });
+              });
+              
+              preview.appendChild(img);
+            }
+          });
+        }
+      });
+    }
+    
+    // Campos para fotos A y B
+    const fotos9Campos = [
+      { label: 'GPS con coordenadas de la torre', name: 'foto_a_1' },
+      { label: 'Foto del sitio', name: 'foto_a_2' },
+      { label: 'Foto del equipo', name: 'foto_a_3' },
+      { label: 'Foto de la antena', name: 'foto_a_4' },
+      { label: 'Foto de la instalación', name: 'foto_a_5' },
+      { label: 'Foto del cableado', name: 'foto_a_6' },
+      { label: 'Foto del panel solar', name: 'foto_a_7' },
+      { label: 'Foto del gabinete', name: 'foto_a_8' },
+      { label: 'Foto general del sitio', name: 'foto_a_9' }
+    ];
+    
+    const fotos10Campos = [
+      { label: 'GPS con coordenadas de la torre', name: 'foto_b_1' },
+      { label: 'Foto del sitio', name: 'foto_b_2' },
+      { label: 'Foto del equipo', name: 'foto_b_3' },
+      { label: 'Foto de la antena', name: 'foto_b_4' },
+      { label: 'Foto de la instalación', name: 'foto_b_5' },
+      { label: 'Foto del cableado', name: 'foto_b_6' },
+      { label: 'Foto del panel solar', name: 'foto_b_7' },
+      { label: 'Foto del gabinete', name: 'foto_b_8' },
+      { label: 'Foto de la configuración', name: 'foto_b_9' },
+      { label: 'Foto de Agregador (Site Entry)', name: 'foto_b_10' }
+    ];
+    
+    window.addEventListener('DOMContentLoaded', function() {
+      // Generar inputs para fotos A
+      const fotos9InputsDiv = document.getElementById('fotos9Inputs');
+      if (fotos9InputsDiv) {
+        fotos9InputsDiv.innerHTML = '';
+        fotos9Campos.forEach(campo => {
+          const item = document.createElement('div');
+          item.style.display = 'flex';
+          item.style.alignItems = 'center';
+          item.style.marginBottom = '10px';
+          item.style.gap = '10px';
+          
+          const label = document.createElement('span');
+          label.textContent = campo.label;
+          label.style.flex = '1';
+          label.style.fontSize = '1rem';
+          label.style.color = '#b5c7e6';
+          label.style.textAlign = 'left';
+          
+          const input = document.createElement('input');
+          input.type = 'file';
+          input.name = campo.name;
+          input.accept = 'image/*';
+          input.style.display = 'none';
+          
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'neon-btn';
+          btn.style.width = 'auto';
+          btn.style.padding = '7px 14px';
+          btn.style.fontSize = '1rem';
+          btn.textContent = 'Seleccionar imagen';
+          
+          const preview = document.createElement('span');
+          preview.className = 'preview-list';
+          
+          btn.onclick = () => input.click();
+          input.onchange = () => {
+            preview.innerHTML = '';
+            if (input.files.length > 0) {
+              const img = document.createElement('img');
+              img.className = 'preview-img';
+              img.style.width = '38px';
+              img.style.height = '38px';
+              img.src = URL.createObjectURL(input.files[0]);
+              preview.appendChild(img);
+            }
+          };
+          
+          item.appendChild(label);
+          item.appendChild(input);
+          item.appendChild(btn);
+          item.appendChild(preview);
+          fotos9InputsDiv.appendChild(item);
+        });
+      }
+      
+      // Generar inputs para fotos B
+      const fotos10InputsDiv = document.getElementById('fotos10Inputs');
+      if (fotos10InputsDiv) {
+        fotos10InputsDiv.innerHTML = '';
+        fotos10Campos.forEach(campo => {
+          const item = document.createElement('div');
+          item.style.display = 'flex';
+          item.style.alignItems = 'center';
+          item.style.marginBottom = '10px';
+          item.style.gap = '10px';
+          
+          const label = document.createElement('span');
+          label.textContent = campo.label;
+          label.style.flex = '1';
+          label.style.fontSize = '1rem';
+          label.style.color = '#b5c7e6';
+          label.style.textAlign = 'left';
+          
+          const input = document.createElement('input');
+          input.type = 'file';
+          input.name = campo.name;
+          input.accept = 'image/*';
+          input.style.display = 'none';
+          
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'neon-btn';
+          btn.style.width = 'auto';
+          btn.style.padding = '7px 14px';
+          btn.style.fontSize = '1rem';
+          btn.textContent = 'Seleccionar imagen';
+          
+          const preview = document.createElement('span');
+          preview.className = 'preview-list';
+          
+          btn.onclick = () => input.click();
+          input.onchange = () => {
+            preview.innerHTML = '';
+            if (input.files.length > 0) {
+              const img = document.createElement('img');
+              img.className = 'preview-img';
+              img.style.width = '38px';
+              img.style.height = '38px';
+              img.src = URL.createObjectURL(input.files[0]);
+              preview.appendChild(img);
+            }
+          };
+          
+          item.appendChild(label);
+          item.appendChild(input);
+          item.appendChild(btn);
+          item.appendChild(preview);
+          fotos10InputsDiv.appendChild(item);
+        });
+      }
+      
+      // Configurar dropzones
+      setupDropzone('wordDrop', 'word_file', 'wordInfo');
+      setupDropzone('pdfDrop', 'pdf_file', 'pdfInfo', null, false);
+      setupDropzone('kmzDrop', 'kmz', 'kmzInfo');
+      setupDropzone('kmlImgDrop', 'imagen_kmz', null, 'kmlImgPreview', true);
+      setupDropzone('imgB5Drop', 'imagen_b', null, 'imgB5Preview', true);
+      setupDropzone('excelB5Drop', 'archivo_excel_b', 'excelB5Info');
+      setupDropzone('imgElectricasDrop', 'imagenes_electricas', null, 'imgElectricasPreview', true);
+      setupDropzone('imgConsumoDrop', 'img_consumo', 'imgConsumoInfo');
+      setupDropzone('imgConfiguracionDrop', 'img_configuracion', 'imgConfiguracionInfo');
+      setupDropzone('imgLineaVistaDrop', 'img_linea_vista', 'imgLineaVistaInfo');
+      setupDropzone('imgTorresDrop', 'imagenes_torres', null, 'imgTorresPreview', true);
+      setupDropzone('imgTorresBDrop', 'imagenes_torres_b', null, 'imgTorresBPreview', true);
+      
+      // Configurar dropzones para Planos A y B
+      setupDropzone('planosADrop1', 'planos_a_img1', null, null, true);
+      setupDropzone('planosADrop2', 'planos_a_img2', null, null, true);
+      setupDropzone('planosADrop3', 'planos_a_img3', null, null, true);
+      setupDropzone('planosBDrop1', 'planos_b_img1', null, null, true);
+      setupDropzone('planosBDrop2', 'planos_b_img2', null, null, true);
+      setupDropzone('planosBDrop3', 'planos_b_img3', null, null, true);
+      
+      // Mostrar el primer paso al cargar
+      showStep(2);
+      
+      // Cargar imagen de fondo de la Tierra
+      const backgroundImage = new Image();
+      backgroundImage.onload = function() {
+        document.body.style.backgroundImage = 'url("/static/images/earth-background.jpg")';
+        console.log('Imagen de fondo cargada correctamente');
+      };
+      backgroundImage.onerror = function() {
+        console.log('Error cargando imagen de fondo, usando fallback');
+        document.body.style.backgroundImage = 'url("/static/images/earth-background.jpg")';
+      };
+      backgroundImage.src = "/static/images/earth-background.jpg";
+    });
+    
+    // Funcionalidad de previsualización
+    function createPreviewModal() {
+      const modal = document.createElement('div');
+      modal.className = 'preview-modal';
+      modal.innerHTML = `
+        <div class="preview-modal-content">
+          <button class="preview-modal-close">&times;</button>
+          <div class="preview-content"></div>
+          <div class="file-info">
+            <div class="file-name"></div>
+            <div class="file-size"></div>
+          </div>
+        </div>
+      `;
+      
+      // Cerrar modal
+      modal.querySelector('.preview-modal-close').addEventListener('click', () => {
+        modal.classList.remove('active');
+      });
+      
+      // Cerrar al hacer clic fuera del contenido
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          modal.classList.remove('active');
+        }
+      });
+      
+      // Cerrar con ESC
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal.classList.contains('active')) {
+          modal.classList.remove('active');
+        }
+      });
+      
+      document.body.appendChild(modal);
+      return modal;
+    }
+    
+    // Crear modal global
+    const previewModal = createPreviewModal();
+    
+    // Función para mostrar previsualización
+    function showPreview(file, fileName) {
+      const content = previewModal.querySelector('.preview-content');
+      const nameElement = previewModal.querySelector('.file-name');
+      const sizeElement = previewModal.querySelector('.file-size');
+      
+      // Si file es un string (nombre del archivo), buscar el archivo real
+      let actualFile = file;
+      if (typeof file === 'string') {
+        // Buscar el archivo en todos los inputs
+        const inputs = document.querySelectorAll('input[type="file"]');
+        for (let input of inputs) {
+          if (input.files && input.files.length > 0) {
+            for (let f of input.files) {
+              if (f.name === file) {
+                actualFile = f;
+                break;
+              }
+            }
+          }
+        }
+      }
+      
+      nameElement.textContent = fileName;
+      sizeElement.textContent = actualFile && actualFile.size ? formatFileSize(actualFile.size) : '';
+      
+      content.innerHTML = '';
+      
+      if (actualFile && actualFile.type && actualFile.type.startsWith('image/')) {
+        const img = document.createElement('img');
+        img.src = URL.createObjectURL(actualFile);
+        content.appendChild(img);
+      } else if (actualFile && actualFile.type === 'application/pdf') {
+        const pdfViewer = document.createElement('iframe');
+        pdfViewer.src = URL.createObjectURL(actualFile);
+        pdfViewer.style.width = '100%';
+        pdfViewer.style.height = '70vh';
+        pdfViewer.style.border = 'none';
+        content.appendChild(pdfViewer);
+      } else {
+        const icon = document.createElement('div');
+        icon.innerHTML = `<i class="fas fa-file" style="font-size: 4rem; color: #00c3ff;"></i>`;
+        icon.style.textAlign = 'center';
+        icon.style.padding = '40px';
+        content.appendChild(icon);
+      }
+      
+      previewModal.classList.add('active');
+    }
+    
+    // Función para formatear tamaño de archivo
+    function formatFileSize(bytes) {
+      if (bytes === 0) return '0 Bytes';
+      const k = 1024;
+      const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+      const i = Math.floor(Math.log(bytes) / Math.log(k));
+      return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+    }
+    
+    // Agregar eventos de previsualización a las imágenes existentes
+    function addPreviewEvents() {
+      const previewImages = document.querySelectorAll('.preview-img');
+      previewImages.forEach(img => {
+        img.addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          
+          // Obtener el archivo del input asociado
+          const input = img.closest('.preview-list').previousElementSibling;
+          if (input && input.files && input.files[0]) {
+            showPreview(input.files[0], input.files[0].name);
+          }
+        });
+        
+        // Tooltip al hacer hover
+        img.addEventListener('mouseenter', (e) => {
+          const tooltip = document.createElement('div');
+          tooltip.className = 'preview-tooltip';
+          tooltip.textContent = 'Clic para previsualizar';
+          tooltip.style.left = e.pageX + 10 + 'px';
+          tooltip.style.top = e.pageY - 30 + 'px';
+          document.body.appendChild(tooltip);
+          
+          setTimeout(() => tooltip.classList.add('show'), 100);
+          
+          img.addEventListener('mouseleave', () => {
+            tooltip.remove();
+          }, { once: true });
+        });
+      });
+    }
+    
+    // Modificar la función setupDropzone para incluir previsualización
+    const originalSetupDropzone = window.setupDropzone;
+    window.setupDropzone = function(dropzoneId, inputName, infoId, previewId, isMultiple) {
+      originalSetupDropzone(dropzoneId, inputName, infoId, previewId, isMultiple);
+      
+      // Agregar eventos de previsualización después de configurar el dropzone
+      setTimeout(addPreviewEvents, 100);
+    };
+    
+    // Agregar eventos iniciales
+    document.addEventListener('DOMContentLoaded', () => {
+      setTimeout(addPreviewEvents, 500);
+    });
+  </script>
+</body>
+</html>

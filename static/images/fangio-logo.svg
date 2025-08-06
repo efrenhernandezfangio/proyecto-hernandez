@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="300" height="120" viewBox="0 0 300 120" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="signalGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#0066cc;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#0099ff;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#00c3ff;stop-opacity:1" />
+    </linearGradient>
+    
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge> 
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    
+    <filter id="shadow">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#000000" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+  
+  <!-- Fondo del logo -->
+  <rect x="10" y="10" width="280" height="100" rx="15" fill="rgba(255,255,255,0.95)" stroke="url(#signalGradient)" stroke-width="2" filter="url(#shadow)"/>
+  
+  <!-- FANGIO Text -->
+  <text x="30" y="50" font-family="Arial, sans-serif" font-size="28" font-weight="900" fill="#000000" font-style="italic" filter="url(#glow)">
+    FANGIO
+  </text>
+  
+  <!-- TELECOM Text -->
+  <text x="30" y="75" font-family="Arial, sans-serif" font-size="16" font-weight="600" fill="#333333">
+    TELECOM
+  </text>
+  
+  <!-- Signal Icon (Wi-Fi style) - Mejorado -->
+  <g transform="translate(220, 60)">
+    <!-- Largest curve -->
+    <path d="M -40 0 Q 0 -30 40 0" stroke="url(#signalGradient)" stroke-width="4" fill="none" opacity="0.8"/>
+    <!-- Medium curve -->
+    <path d="M -30 0 Q 0 -20 30 0" stroke="url(#signalGradient)" stroke-width="4" fill="none" opacity="0.9"/>
+    <!-- Smallest curve -->
+    <path d="M -20 0 Q 0 -10 20 0" stroke="url(#signalGradient)" stroke-width="4" fill="none" opacity="1"/>
+    <!-- Center dot -->
+    <circle cx="0" cy="0" r="3" fill="url(#signalGradient)"/>
+  </g>
+  
+  <!-- Efecto de brillo sutil -->
+  <rect x="10" y="10" width="280" height="100" rx="15" fill="url(#signalGradient)" opacity="0.05"/>
+</svg> 

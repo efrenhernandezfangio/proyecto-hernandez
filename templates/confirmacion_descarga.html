@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>FANGIO TELECOM | Documento Generado</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', Arial, sans-serif;
+            min-height: 100vh;
+            background: 
+                linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6)),
+                url('{{ url_for("static", filename="images/earth-background.jpg") }}') !important;
+            background-color: #0a192f !important;
+            background-size: cover !important;
+            background-position: center !important;
+            background-attachment: fixed !important;
+            background-repeat: no-repeat !important;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow-x: hidden;
+            color: #e0e7ef;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Overlay para mejorar la legibilidad */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(ellipse at top, rgba(0, 0, 0, 0.2) 0%, transparent 50%),
+                radial-gradient(ellipse at bottom, rgba(0, 0, 0, 0.4) 0%, transparent 50%);
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* Efecto de estrellas sutiles */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                radial-gradient(1px 1px at 10% 20%, rgba(255, 255, 255, 0.8), transparent),
+                radial-gradient(1px 1px at 20% 80%, rgba(255, 255, 255, 0.6), transparent),
+                radial-gradient(1px 1px at 80% 30%, rgba(255, 255, 255, 0.9), transparent),
+                radial-gradient(1px 1px at 90% 70%, rgba(255, 255, 255, 0.7), transparent);
+            background-size: 400px 400px, 300px 300px, 500px 500px, 350px 350px;
+            animation: twinkle 8s ease-in-out infinite;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(135deg, 
+                rgba(10, 15, 30, 0.98) 0%, 
+                rgba(22, 33, 62, 0.95) 50%, 
+                rgba(15, 52, 96, 0.92) 100%);
+            backdrop-filter: blur(20px);
+            border-bottom: 3px solid rgba(0, 195, 255, 0.5);
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.4),
+                0 0 0 1px rgba(0, 195, 255, 0.1) inset;
+            padding: 0;
+            z-index: 100;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(0, 195, 255, 0.8), 
+                transparent);
+            animation: headerScan 3s ease-in-out infinite;
+        }
+
+        @keyframes headerScan {
+            0%, 100% { transform: translateX(-100%); opacity: 0.5; }
+            50% { transform: translateX(100%); opacity: 1; }
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 30px;
+            position: relative;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            position: relative;
+        }
+
+        .logo {
+            width: 220px;
+            height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.15) 0%, 
+                rgba(255, 255, 255, 0.08) 100%);
+            border-radius: 18px;
+            border: 2px solid rgba(0, 195, 255, 0.4);
+            box-shadow: 
+                0 10px 30px rgba(0, 0, 0, 0.4),
+                0 0 0 1px rgba(0, 195, 255, 0.15) inset,
+                0 0 20px rgba(0, 195, 255, 0.2);
+            backdrop-filter: blur(15px);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            overflow: hidden;
+        }
+
+        .logo:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 
+                0 15px 40px rgba(0, 0, 0, 0.5),
+                0 0 0 1px rgba(0, 195, 255, 0.3) inset,
+                0 0 30px rgba(0, 195, 255, 0.4);
+            border-color: rgba(0, 195, 255, 0.6);
+        }
+        
+        .logo img {
+            width: 100%;
+            height: auto;
+            max-height: 100%;
+            filter: brightness(1.1) contrast(1.1);
+            transition: all 0.3s ease;
+        }
+
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .logo-text p {
+            color: #00c3ff;
+            font-size: 1rem;
+            margin: 0;
+            font-weight: 600;
+            text-align: left;
+            letter-spacing: 0.5px;
+            text-shadow: 0 0 10px rgba(0, 195, 255, 0.3);
+        }
+
+        .main-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            min-height: 100vh;
+        }
+
+        .success-card {
+            background: linear-gradient(135deg, rgba(22, 33, 62, 0.95) 0%, rgba(15, 52, 96, 0.9) 100%);
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(0, 195, 255, 0.4);
+            box-shadow: 
+                0 20px 60px rgba(0, 0, 0, 0.4),
+                0 8px 32px rgba(0, 195, 255, 0.3),
+                0 0 0 1px rgba(0, 195, 255, 0.2) inset,
+                0 0 0 4px rgba(0, 195, 255, 0.1) inset,
+                0 0 50px rgba(0, 195, 255, 0.2);
+            border-radius: 28px;
+            padding: 60px 50px;
+            min-width: 500px;
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            z-index: 10;
+            animation: cardFloat 6s ease-in-out infinite;
+        }
+
+        @keyframes cardFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .success-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #00c3ff, #00e0ff, #00c3ff, transparent);
+            animation: scan 4s ease-in-out infinite;
+            box-shadow: 0 0 10px rgba(0, 195, 255, 0.8);
+        }
+
+        .success-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 30% 20%, rgba(0, 195, 255, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 80%, rgba(0, 195, 255, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        @keyframes scan {
+            0%, 100% { transform: translateX(-100%); opacity: 0.5; }
+            50% { transform: translateX(100%); opacity: 1; }
+        }
+
+        .success-icon {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #00ff88 0%, #00cc6a 50%, #00ff88 100%);
+            border: 4px solid #00c3ff;
+            box-shadow: 
+                0 0 40px rgba(0, 255, 136, 0.6),
+                0 0 0 1px rgba(255, 255, 255, 0.2) inset,
+                0 8px 25px rgba(0, 0, 0, 0.2);
+            margin: 0 auto 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: #fff;
+            font-weight: bold;
+            position: relative;
+            animation: successPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes successPulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 40px rgba(0, 255, 136, 0.6); }
+            50% { transform: scale(1.05); box-shadow: 0 0 50px rgba(0, 255, 136, 0.8); }
+        }
+
+        .success-title {
+            color: #00ff88;
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin: 0 0 20px 0;
+            letter-spacing: 2px;
+            text-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
+        }
+
+        .info-container {
+            background: rgba(0, 195, 255, 0.1);
+            border: 1px solid rgba(0, 195, 255, 0.3);
+            border-radius: 16px;
+            padding: 25px;
+            margin: 30px 0;
+            text-align: left;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            color: #e0e7ef;
+            font-size: 1.1rem;
+        }
+
+        .info-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .info-label {
+            color: #00c3ff;
+            font-weight: 700;
+            min-width: 140px;
+        }
+
+        .info-value {
+            color: #fff;
+            font-weight: 500;
+        }
+
+        .buttons-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .download-button {
+            background: linear-gradient(135deg, #00c3ff 0%, #0099cc 50%, #00c3ff 100%);
+            border: none;
+            border-radius: 16px;
+            padding: 18px 25px;
+            color: #fff;
+            font-size: 1.2rem;
+            font-weight: 700;
+            font-family: inherit;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 
+                0 8px 25px rgba(0, 195, 255, 0.4),
+                0 0 0 1px rgba(255, 255, 255, 0.1) inset,
+                0 0 30px rgba(0, 195, 255, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            letter-spacing: 0.5px;
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
+        }
+
+        .download-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .download-button:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 
+                0 15px 35px rgba(0, 195, 255, 0.5),
+                0 0 0 2px rgba(255, 255, 255, 0.2) inset;
+            background: linear-gradient(135deg, #00e0ff 0%, #00c3ff 50%, #00e0ff 100%);
+        }
+
+        .download-button:hover::before {
+            left: 100%;
+        }
+
+        .download-button:active {
+            transform: translateY(-1px) scale(1.01);
+        }
+
+        .new-document-button {
+            background: linear-gradient(135deg, #00ff88 0%, #00cc6a 50%, #00ff88 100%);
+            border: none;
+            border-radius: 16px;
+            padding: 16px 25px;
+            color: #fff;
+            font-size: 1.1rem;
+            font-weight: 700;
+            font-family: inherit;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 
+                0 8px 25px rgba(0, 255, 136, 0.4),
+                0 0 0 1px rgba(255, 255, 255, 0.1) inset,
+                0 0 30px rgba(0, 255, 136, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            letter-spacing: 0.5px;
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
+        }
+
+        .new-document-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .new-document-button:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 
+                0 15px 35px rgba(0, 255, 136, 0.5),
+                0 0 0 2px rgba(255, 255, 255, 0.2) inset;
+            background: linear-gradient(135deg, #00ffaa 0%, #00ff88 50%, #00ffaa 100%);
+        }
+
+        .new-document-button:hover::before {
+            left: 100%;
+        }
+
+        .new-document-button:active {
+            transform: translateY(-1px) scale(1.01);
+        }
+
+        .back-button {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+            border: 1px solid rgba(0, 195, 255, 0.3);
+            color: #00c3ff;
+            font-size: 0.95rem;
+            font-weight: 600;
+            padding: 12px 25px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .back-button:hover {
+            background: rgba(0, 195, 255, 0.1);
+            border-color: rgba(0, 195, 255, 0.5);
+            transform: translateY(-1px);
+        }
+
+        .footer {
+            position: fixed;
+            bottom: 20px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            color: #7b8794;
+            font-size: 0.9rem;
+            opacity: 0.8;
+            z-index: 10;
+        }
+
+        .footer-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: rgba(22, 33, 62, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 10px 20px;
+            border-radius: 25px;
+            border: 1px solid rgba(0, 195, 255, 0.2);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .separator {
+            color: #00c3ff;
+            font-weight: bold;
+        }
+
+        .company-name {
+            color: #00c3ff;
+            font-weight: 600;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .header-content {
+                padding: 10px 15px;
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .logo {
+                width: 160px;
+                height: 65px;
+            }
+
+            .logo-text p {
+                font-size: 0.85rem;
+                text-align: center;
+            }
+
+            .success-card {
+                min-width: 320px;
+                max-width: 95vw;
+                padding: 40px 30px;
+                margin: 20px;
+            }
+
+            .success-title {
+                font-size: 2rem;
+            }
+
+            .success-icon {
+                width: 80px;
+                height: 80px;
+                font-size: 2.5rem;
+            }
+
+            .info-item {
+                font-size: 1rem;
+            }
+
+            .info-label {
+                min-width: 120px;
+            }
+
+            .download-button, .new-document-button {
+                font-size: 1.1rem;
+                padding: 16px 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .success-card {
+                min-width: 280px;
+                padding: 30px 20px;
+            }
+
+            .success-title {
+                font-size: 1.8rem;
+            }
+
+            .success-icon {
+                width: 70px;
+                height: 70px;
+                font-size: 2rem;
+            }
+
+            .info-container {
+                padding: 20px;
+            }
+
+            .info-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 5px;
+            }
+
+            .info-label {
+                min-width: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <div class="logo-container">
+                <div class="logo">
+                    <img src="{{ url_for('static', filename='images/fangio-logo.PNG') }}" alt="FANGIO TELECOM">
+                </div>
+                <div class="logo-text">
+                    <p>Redes Seguras Soluciones Estratégicas</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="main-container">
+        <div class="success-card">
+            <div class="success-icon">
+                <i class="fas fa-check"></i>
+            </div>
+            <h1 class="success-title">¡Documento Generado!</h1>
+            
+            <div class="info-container">
+                <div class="info-item">
+                    <span class="info-label"><i class="fas fa-id-card"></i> ID:</span>
+                    <span class="info-value">{{ user_id }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label"><i class="fas fa-map-marker-alt"></i> Sitio A:</span>
+                    <span class="info-value">{{ nombre_a }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label"><i class="fas fa-map-marker-alt"></i> Sitio B:</span>
+                    <span class="info-value">{{ nombre_b }}</span>
+                </div>
+            </div>
+            
+            <div class="buttons-container">
+                <a href="{{ url_for('descargar_site_survey', user_id=user_id) }}" class="download-button">
+                    <i class="fas fa-download"></i>
+                    Descargar Archivo Generado
+                </a>
+                
+                <a href="{{ url_for('seleccion_tipo_llenado', user_id=user_id, fila_idx=fila_idx) }}" class="new-document-button">
+                    <i class="fas fa-plus-circle"></i>
+                    Generar Otro Documento
+                </a>
+                
+                <a href="/" class="back-button">
+                    <i class="fas fa-home"></i>
+                    Volver al Inicio
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <span>&copy; 2025 Realizado por Efren Alexis Hernandez Mendez</span>
+            <span class="separator">|</span>
+            <span class="company-name">FANGIO TELECOM</span>
+        </div>
+    </footer>
+
+    <script>
+        // Verificar si la imagen de fondo se carga correctamente
+        document.addEventListener('DOMContentLoaded', function() {
+            const img = new Image();
+            img.onload = function() {
+                console.log('Imagen de fondo cargada correctamente');
+                document.body.style.backgroundImage = 'linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6)), url("{{ url_for("static", filename="images/earth-background.jpg") }}")';
+            };
+            img.onerror = function() {
+                console.log('Error al cargar la imagen de fondo');
+                document.body.style.backgroundColor = '#0a192f';
+            };
+            img.src = '{{ url_for("static", filename="images/earth-background.jpg") }}';
+        });
+
+        // Efecto de aparición para la tarjeta principal
+        document.addEventListener('DOMContentLoaded', function() {
+            const successCard = document.querySelector('.success-card');
+            if (successCard) {
+                successCard.style.opacity = '0';
+                successCard.style.transform = 'translateY(30px)';
+                
+                setTimeout(() => {
+                    successCard.style.transition = 'all 0.8s ease';
+                    successCard.style.opacity = '1';
+                    successCard.style.transform = 'translateY(0)';
+                }, 300);
+            }
+        });
+
+        // Efecto de hover para el logo
+        document.addEventListener('DOMContentLoaded', function() {
+            const logo = document.querySelector('.logo');
+            if (logo) {
+                logo.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-3px) scale(1.02)';
+                });
+                
+                logo.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                });
+            }
+        });
+    </script>
+</body>
+</html> 

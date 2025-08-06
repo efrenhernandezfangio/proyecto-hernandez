@@ -1,0 +1,15 @@
+flask==2.3.3
+pandas==2.0.3
+xlwings==0.30.12
+openpyxl==3.1.2
+python-docx==0.8.11
+matplotlib==3.7.2
+numpy==1.24.3
+requests==2.31.0
+pywin32==306
+Werkzeug==2.3.7
+Jinja2==3.1.2
+dataframe-image==0.2.1
+Pillow==10.0.0
+pyinstaller==6.0.0
+waitress==2.1.2

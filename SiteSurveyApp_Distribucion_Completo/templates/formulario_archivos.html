@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>FANGIO TELECOM | Formulario de Archivos</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', Arial, sans-serif;
+            min-height: 100vh;
+            background: 
+                linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6)),
+                url('{{ url_for("static", filename="images/earth-background.jpg") }}');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Overlay para mejorar la legibilidad */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(ellipse at top, rgba(0, 0, 0, 0.2) 0%, transparent 50%),
+                radial-gradient(ellipse at bottom, rgba(0, 0, 0, 0.4) 0%, transparent 50%);
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* Efecto de estrellas sutiles */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                radial-gradient(1px 1px at 10% 20%, rgba(255, 255, 255, 0.8), transparent),
+                radial-gradient(1px 1px at 20% 80%, rgba(255, 255, 255, 0.6), transparent),
+                radial-gradient(1px 1px at 80% 30%, rgba(255, 255, 255, 0.9), transparent),
+                radial-gradient(1px 1px at 90% 70%, rgba(255, 255, 255, 0.7), transparent);
+            background-size: 400px 400px, 300px 300px, 500px 500px, 350px 350px;
+            animation: twinkle 8s ease-in-out infinite;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(135deg, 
+                rgba(10, 15, 30, 0.98) 0%, 
+                rgba(22, 33, 62, 0.95) 50%, 
+                rgba(15, 52, 96, 0.92) 100%);
+            backdrop-filter: blur(20px);
+            border-bottom: 3px solid rgba(0, 195, 255, 0.5);
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.4),
+                0 0 0 1px rgba(0, 195, 255, 0.1) inset;
+            padding: 0;
+            z-index: 100;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(0, 195, 255, 0.8), 
+                transparent);
+            animation: headerScan 3s ease-in-out infinite;
+        }
+
+        @keyframes headerScan {
+            0%, 100% { transform: translateX(-100%); opacity: 0.5; }
+            50% { transform: translateX(100%); opacity: 1; }
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 30px;
+            position: relative;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            position: relative;
+        }
+
+        .logo {
+            width: 220px;
+            height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.15) 0%, 
+                rgba(255, 255, 255, 0.08) 100%);
+            border-radius: 18px;
+            border: 2px solid rgba(0, 195, 255, 0.4);
+            box-shadow: 
+                0 10px 30px rgba(0, 0, 0, 0.4),
+                0 0 0 1px rgba(0, 195, 255, 0.15) inset,
+                0 0 20px rgba(0, 195, 255, 0.2);
+            backdrop-filter: blur(15px);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            overflow: hidden;
+        }
+
+        .logo:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 
+                0 15px 40px rgba(0, 0, 0, 0.5),
+                0 0 0 1px rgba(0, 195, 255, 0.3) inset,
+                0 0 30px rgba(0, 195, 255, 0.4);
+            border-color: rgba(0, 195, 255, 0.6);
+        }
+        
+        .logo img {
+            width: 100%;
+            height: auto;
+            max-height: 100%;
+            filter: brightness(1.1) contrast(1.1);
+            transition: all 0.3s ease;
+        }
+
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .logo-text p {
+            color: #00c3ff;
+            font-size: 1rem;
+            margin: 0;
+            font-weight: 600;
+            text-align: left;
+            letter-spacing: 0.5px;
+            text-shadow: 0 0 10px rgba(0, 195, 255, 0.3);
+        }
+
+        .main-container {
+            position: relative;
+            z-index: 10;
+            margin-top: 120px;
+            margin-bottom: 100px;
+            padding: 0 20px;
+        }
+
+        .form-card {
+            background: linear-gradient(135deg, rgba(22, 33, 62, 0.95) 0%, rgba(15, 52, 96, 0.9) 100%);
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(0, 195, 255, 0.4);
+            box-shadow: 
+                0 20px 60px rgba(0, 0, 0, 0.4),
+                0 8px 32px rgba(0, 195, 255, 0.3),
+                0 0 0 1px rgba(0, 195, 255, 0.2) inset,
+                0 0 0 4px rgba(0, 195, 255, 0.1) inset,
+                0 0 50px rgba(0, 195, 255, 0.2);
+            border-radius: 28px;
+            padding: 50px 40px;
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+            z-index: 10;
+            animation: cardFloat 6s ease-in-out infinite;
+        }
+
+        @keyframes cardFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
+        }
+
+        .form-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #00c3ff, #00e0ff, #00c3ff, transparent);
+            animation: scan 4s ease-in-out infinite;
+            box-shadow: 0 0 10px rgba(0, 195, 255, 0.8);
+        }
+
+        .form-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 30% 20%, rgba(0, 195, 255, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 80%, rgba(0, 195, 255, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        @keyframes scan {
+            0%, 100% { transform: translateX(-100%); opacity: 0.5; }
+            50% { transform: translateX(100%); opacity: 1; }
+        }
+
+        .form-title {
+            color: #00c3ff;
+            font-size: 2.2rem;
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 40px;
+            letter-spacing: 2px;
+            text-shadow: 0 0 20px rgba(0, 195, 255, 0.5);
+        }
+
+        .link-info {
+            background: rgba(0, 195, 255, 0.1);
+            border: 2px dashed rgba(0, 195, 255, 0.4);
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .link-info::before {
+            content: '\f05a';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            background: linear-gradient(135deg, #00c3ff 0%, #0099cc 100%);
+            color: #fff;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 15px rgba(0, 195, 255, 0.4);
+        }
+
+        .link-info h3 {
+            color: #00c3ff;
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            padding-left: 40px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            padding-left: 40px;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #e0e7ef;
+            font-size: 1rem;
+        }
+
+        .info-label {
+            color: #00c3ff;
+            font-weight: 700;
+            min-width: 80px;
+        }
+
+        .info-value {
+            color: #fff;
+            font-weight: 500;
+        }
+
+        .upload-section {
+            margin-bottom: 40px;
+        }
+
+        .upload-title {
+            color: #00c3ff;
+            font-size: 1.8rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 30px;
+            letter-spacing: 1px;
+        }
+
+        .dropzone {
+            background: rgba(35, 53, 84, 0.8);
+            border: 2px dashed rgba(0, 195, 255, 0.6);
+            border-radius: 16px;
+            padding: 30px 20px;
+            text-align: center;
+            margin-bottom: 20px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .dropzone::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 195, 255, 0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .dropzone:hover {
+            background: rgba(26, 35, 58, 0.9);
+            border-color: rgba(0, 195, 255, 0.8);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 195, 255, 0.3);
+        }
+
+        .dropzone:hover::before {
+            left: 100%;
+        }
+
+        .dropzone.dragover {
+            background: rgba(0, 195, 255, 0.1);
+            border-color: #00c3ff;
+            transform: scale(1.02);
+        }
+
+        .dropzone i {
+            font-size: 2.5rem;
+            color: #00c3ff;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .dropzone-text {
+            color: #e0e7ef;
+            font-size: 1.1rem;
+            font-weight: 500;
+            line-height: 1.5;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .file-info {
+            background: rgba(0, 195, 255, 0.1);
+            border: 1px solid rgba(0, 195, 255, 0.3);
+            border-radius: 12px;
+            padding: 15px;
+            margin-top: 15px;
+            color: #00c3ff;
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        .preview-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .preview-img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 10px;
+            border: 2px solid rgba(0, 195, 255, 0.4);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .preview-img:hover {
+            transform: scale(1.1);
+            border-color: #00c3ff;
+        }
+
+        .buttons-container {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 40px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #00c3ff 0%, #0099cc 50%, #00c3ff 100%);
+            border: none;
+            border-radius: 16px;
+            padding: 16px 30px;
+            color: #fff;
+            font-size: 1.1rem;
+            font-weight: 700;
+            font-family: inherit;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 
+                0 8px 25px rgba(0, 195, 255, 0.4),
+                0 0 0 1px rgba(255, 255, 255, 0.1) inset,
+                0 0 30px rgba(0, 195, 255, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            letter-spacing: 0.5px;
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
+            min-width: 150px;
+            justify-content: center;
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 
+                0 15px 35px rgba(0, 195, 255, 0.5),
+                0 0 0 2px rgba(255, 255, 255, 0.2) inset;
+            background: linear-gradient(135deg, #00e0ff 0%, #00c3ff 50%, #00e0ff 100%);
+        }
+
+        .btn-primary:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary:active {
+            transform: translateY(-1px) scale(1.01);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+            border: 1px solid rgba(0, 195, 255, 0.3);
+            color: #00c3ff;
+            font-size: 1rem;
+            font-weight: 600;
+            padding: 16px 30px;
+            border-radius: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            min-width: 150px;
+            justify-content: center;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(0, 195, 255, 0.1);
+            border-color: rgba(0, 195, 255, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .success-message {
+            background: linear-gradient(135deg, rgba(0, 255, 136, 0.1) 0%, rgba(0, 204, 102, 0.05) 100%);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            border-radius: 12px;
+            padding: 15px 20px;
+            margin-top: 20px;
+            color: #00ff88;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 15px rgba(0, 255, 136, 0.2);
+        }
+
+        .footer {
+            position: fixed;
+            bottom: 20px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            color: #7b8794;
+            font-size: 0.9rem;
+            opacity: 0.8;
+            z-index: 10;
+        }
+
+        .footer-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: rgba(22, 33, 62, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 10px 20px;
+            border-radius: 25px;
+            border: 1px solid rgba(0, 195, 255, 0.2);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .separator {
+            color: #00c3ff;
+            font-weight: bold;
+        }
+
+        .company-name {
+            color: #00c3ff;
+            font-weight: 600;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .header-content {
+                padding: 10px 15px;
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .logo {
+                width: 160px;
+                height: 65px;
+            }
+
+            .logo-text p {
+                font-size: 0.85rem;
+                text-align: center;
+            }
+
+            .form-card {
+                padding: 30px 20px;
+                margin: 10px;
+            }
+
+            .form-title {
+                font-size: 1.8rem;
+            }
+
+            .upload-title {
+                font-size: 1.5rem;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+                padding-left: 20px;
+            }
+
+            .buttons-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .btn-primary, .btn-secondary {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .form-card {
+                padding: 25px 15px;
+            }
+
+            .form-title {
+                font-size: 1.6rem;
+            }
+
+            .dropzone {
+                padding: 25px 15px;
+            }
+
+            .dropzone i {
+                font-size: 2rem;
+            }
+
+            .dropzone-text {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <div class="logo-container">
+                <div class="logo">
+                    <img src="{{ url_for('static', filename='images/fangio-logo.PNG') }}" alt="FANGIO TELECOM">
+                </div>
+                <div class="logo-text">
+                    <p>Redes Seguras Soluciones Estratégicas</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="main-container">
+        <div class="form-card">
+            <h1 class="form-title">Formulario de Archivos</h1>
+            
+            <!-- Información del Enlace -->
+            <div class="link-info">
+                <h3>Enlace Seleccionado</h3>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <span class="info-label">ID:</span>
+                        <span class="info-value">{{ user_id }}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Sitio A:</span>
+                        <span class="info-value">{{ sitio_a }}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Sitio B:</span>
+                        <span class="info-value">{{ sitio_b }}</span>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <!-- Formulario -->
+            <form id="autoForm" action="/procesar" method="post" enctype="multipart/form-data" autocomplete="off">
+                <input type="hidden" name="user_id" value="{{ user_id }}">
+                <input type="hidden" name="fila_idx" value="{{ fila_idx }}">
+                
+                <!-- Sección de Subida de Archivos -->
+                <div class="upload-section">
+                    <h2 class="upload-title">Sube los archivos PDF y las imágenes eléctricas</h2>
+                    
+                    <!-- PDF Upload -->
+                    <div class="dropzone" id="pdfDrop">
+                        <i class="fas fa-file-pdf"></i>
+                        <div class="dropzone-text">
+                            Arrastra o selecciona los PDF de la hoja 4. Estudio de información A
+                        </div>
+                        <input type="file" name="pdf_file" accept="application/pdf" multiple class="file-input" id="pdfInput">
+                    </div>
+                    <div class="file-info" id="pdfInfo"></div>
+                    
+                    <!-- Imágenes Eléctricas Upload -->
+                    <div class="dropzone" id="imgElectricasDrop">
+                        <i class="fas fa-bolt"></i>
+                        <div class="dropzone-text">
+                            Sube las imágenes eléctricas para la hoja 4. Estudio de información A (máx 6)
+                        </div>
+                        <input type="file" name="imagenes_electricas" accept="image/*" multiple class="file-input" id="imgElectricasInput">
+                    </div>
+                    <div class="preview-list" id="imgElectricasPreview"></div>
+                </div>
+                
+                <!-- Botones de Acción -->
+                <div class="buttons-container">
+                    <button type="submit" class="btn-primary">
+                        <i class="fas fa-arrow-right"></i>
+                        Siguiente
+                    </button>
+                    <a href="/" class="btn-secondary">
+                        <i class="fas fa-home"></i>
+                        Volver al Inicio
+                    </a>
+                </div>
+            </form>
+
+            <!-- Mensaje de Éxito -->
+            <div class="success-message" id="successMessage" style="display: none;">
+                <i class="fas fa-check-circle"></i>
+                <span>Plantilla de llenado cargada correctamente</span>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <span>&copy; 2025 Realizado por Efren Alexis Hernandez Mendez</span>
+            <span class="separator">|</span>
+            <span class="company-name">FANGIO TELECOM</span>
+        </div>
+    </footer>
+
+    <script>
+        // Efecto de aparición para la tarjeta principal
+        document.addEventListener('DOMContentLoaded', function() {
+            const formCard = document.querySelector('.form-card');
+            if (formCard) {
+                formCard.style.opacity = '0';
+                formCard.style.transform = 'translateY(30px)';
+                
+                setTimeout(() => {
+                    formCard.style.transition = 'all 0.8s ease';
+                    formCard.style.opacity = '1';
+                    formCard.style.transform = 'translateY(0)';
+                }, 300);
+            }
+
+            // Mostrar mensaje de éxito
+            setTimeout(() => {
+                const successMessage = document.getElementById('successMessage');
+                if (successMessage) {
+                    successMessage.style.display = 'flex';
+                    successMessage.style.opacity = '0';
+                    successMessage.style.transform = 'translateY(10px)';
+                    
+                    setTimeout(() => {
+                        successMessage.style.transition = 'all 0.5s ease';
+                        successMessage.style.opacity = '1';
+                        successMessage.style.transform = 'translateY(0)';
+                    }, 100);
+                }
+            }, 1000);
+        });
+
+        // Efecto de hover para el logo
+        document.addEventListener('DOMContentLoaded', function() {
+            const logo = document.querySelector('.logo');
+            if (logo) {
+                logo.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-3px) scale(1.02)';
+                });
+                
+                logo.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                });
+            }
+        });
+
+        // Funcionalidad de drag and drop
+        document.addEventListener('DOMContentLoaded', function() {
+            const dropzones = document.querySelectorAll('.dropzone');
+            
+            dropzones.forEach(dropzone => {
+                const fileInput = dropzone.querySelector('.file-input');
+                
+                dropzone.addEventListener('click', () => {
+                    fileInput.click();
+                });
+                
+                dropzone.addEventListener('dragover', (e) => {
+                    e.preventDefault();
+                    dropzone.classList.add('dragover');
+                });
+                
+                dropzone.addEventListener('dragleave', () => {
+                    dropzone.classList.remove('dragover');
+                });
+                
+                dropzone.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    dropzone.classList.remove('dragover');
+                    const files = e.dataTransfer.files;
+                    fileInput.files = files;
+                    handleFileSelect(fileInput);
+                });
+                
+                fileInput.addEventListener('change', () => {
+                    handleFileSelect(fileInput);
+                });
+            });
+        });
+
+        function handleFileSelect(input) {
+            const files = input.files;
+            const dropzone = input.closest('.dropzone');
+            const dropzoneId = dropzone.id;
+            
+            if (files.length > 0) {
+                let fileInfo = '';
+                for (let i = 0; i < files.length; i++) {
+                    fileInfo += `${files[i].name} (${formatFileSize(files[i].size)})`;
+                    if (i < files.length - 1) fileInfo += '<br>';
+                }
+                
+                if (dropzoneId === 'pdfDrop') {
+                    document.getElementById('pdfInfo').innerHTML = fileInfo;
+                } else if (dropzoneId === 'imgElectricasDrop') {
+                    // Mostrar preview de imágenes
+                    const previewContainer = document.getElementById('imgElectricasPreview');
+                    previewContainer.innerHTML = '';
+                    
+                    for (let file of files) {
+                        if (file.type.startsWith('image/')) {
+                            const reader = new FileReader();
+                            reader.onload = function(e) {
+                                const img = document.createElement('img');
+                                img.src = e.target.result;
+                                img.className = 'preview-img';
+                                previewContainer.appendChild(img);
+                            };
+                            reader.readAsDataURL(file);
+                        }
+                    }
+                }
+            }
+        }
+
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        // Validación del formulario antes de enviar
+        document.getElementById('autoForm').addEventListener('submit', function(e) {
+            const pdfInput = document.getElementById('pdfInput');
+            const imgInput = document.getElementById('imgElectricasInput');
+            
+            // Validar que al menos se haya seleccionado un archivo
+            if (pdfInput.files.length === 0 && imgInput.files.length === 0) {
+                e.preventDefault();
+                alert('Por favor, selecciona al menos un archivo PDF o una imagen eléctrica antes de continuar.');
+                return false;
+            }
+            
+            // Mostrar indicador de carga
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Procesando...';
+            submitBtn.disabled = true;
+            
+            // Restaurar el botón después de un tiempo (en caso de error)
+            setTimeout(() => {
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }, 10000);
+        });
+    </script>
+</body>
+</html> 

@@ -1,0 +1,1407 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>FANGIO TELECOM | Formulario de Archivos</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', Arial, sans-serif;
+            min-height: 100vh;
+            background: 
+                linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6)),
+                url('{{ url_for("static", filename="images/earth-background.jpg") }}');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Overlay para mejorar la legibilidad */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(ellipse at top, rgba(0, 0, 0, 0.2) 0%, transparent 50%),
+                radial-gradient(ellipse at bottom, rgba(0, 0, 0, 0.4) 0%, transparent 50%);
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* Efecto de estrellas sutiles */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                radial-gradient(1px 1px at 10% 20%, rgba(255, 255, 255, 0.8), transparent),
+                radial-gradient(1px 1px at 20% 80%, rgba(255, 255, 255, 0.6), transparent),
+                radial-gradient(1px 1px at 80% 30%, rgba(255, 255, 255, 0.9), transparent),
+                radial-gradient(1px 1px at 90% 70%, rgba(255, 255, 255, 0.7), transparent);
+            background-size: 400px 400px, 300px 300px, 500px 500px, 350px 350px;
+            animation: twinkle 8s ease-in-out infinite;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(135deg, 
+                rgba(10, 15, 30, 0.98) 0%, 
+                rgba(22, 33, 62, 0.95) 50%, 
+                rgba(15, 52, 96, 0.92) 100%);
+            backdrop-filter: blur(20px);
+            border-bottom: 3px solid rgba(0, 195, 255, 0.5);
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.4),
+                0 0 0 1px rgba(0, 195, 255, 0.1) inset;
+            padding: 0;
+            z-index: 100;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(0, 195, 255, 0.8), 
+                transparent);
+            animation: headerScan 3s ease-in-out infinite;
+        }
+
+        @keyframes headerScan {
+            0%, 100% { transform: translateX(-100%); opacity: 0.5; }
+            50% { transform: translateX(100%); opacity: 1; }
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 30px;
+            position: relative;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            position: relative;
+        }
+
+        .logo {
+            width: 220px;
+            height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.15) 0%, 
+                rgba(255, 255, 255, 0.08) 100%);
+            border-radius: 18px;
+            border: 2px solid rgba(0, 195, 255, 0.4);
+            box-shadow: 
+                0 10px 30px rgba(0, 0, 0, 0.4),
+                0 0 0 1px rgba(0, 195, 255, 0.15) inset,
+                0 0 20px rgba(0, 195, 255, 0.2);
+            backdrop-filter: blur(15px);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            overflow: hidden;
+        }
+
+        .logo:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 
+                0 15px 40px rgba(0, 0, 0, 0.5),
+                0 0 0 1px rgba(0, 195, 255, 0.3) inset,
+                0 0 30px rgba(0, 195, 255, 0.4);
+            border-color: rgba(0, 195, 255, 0.6);
+        }
+        
+        .logo img {
+            width: 100%;
+            height: auto;
+            max-height: 100%;
+            filter: brightness(1.1) contrast(1.1);
+            transition: all 0.3s ease;
+        }
+
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .logo-text p {
+            color: #00c3ff;
+            font-size: 1rem;
+            margin: 0;
+            font-weight: 600;
+            text-align: left;
+            letter-spacing: 0.5px;
+            text-shadow: 0 0 10px rgba(0, 195, 255, 0.3);
+        }
+
+        .main-container {
+            position: relative;
+            z-index: 10;
+            margin-top: 120px;
+            margin-bottom: 100px;
+            padding: 0 20px;
+        }
+
+        .form-card {
+            background: linear-gradient(135deg, rgba(22, 33, 62, 0.95) 0%, rgba(15, 52, 96, 0.9) 100%);
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(0, 195, 255, 0.4);
+            box-shadow: 
+                0 20px 60px rgba(0, 0, 0, 0.4),
+                0 8px 32px rgba(0, 195, 255, 0.3),
+                0 0 0 1px rgba(0, 195, 255, 0.2) inset,
+                0 0 0 4px rgba(0, 195, 255, 0.1) inset,
+                0 0 50px rgba(0, 195, 255, 0.2);
+            border-radius: 28px;
+            padding: 50px 40px;
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+            z-index: 10;
+            animation: cardFloat 6s ease-in-out infinite;
+        }
+
+        @keyframes cardFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
+        }
+
+        .form-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #00c3ff, #00e0ff, #00c3ff, transparent);
+            animation: scan 4s ease-in-out infinite;
+            box-shadow: 0 0 10px rgba(0, 195, 255, 0.8);
+        }
+
+        .form-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 30% 20%, rgba(0, 195, 255, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 80%, rgba(0, 195, 255, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        @keyframes scan {
+            0%, 100% { transform: translateX(-100%); opacity: 0.5; }
+            50% { transform: translateX(100%); opacity: 1; }
+        }
+
+        .form-title {
+            color: #00c3ff;
+            font-size: 2.2rem;
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 40px;
+            letter-spacing: 2px;
+            text-shadow: 0 0 20px rgba(0, 195, 255, 0.5);
+        }
+
+        .link-info {
+            background: rgba(0, 195, 255, 0.1);
+            border: 2px dashed rgba(0, 195, 255, 0.4);
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .link-info::before {
+            content: '\f05a';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            background: linear-gradient(135deg, #00c3ff 0%, #0099cc 100%);
+            color: #fff;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 15px rgba(0, 195, 255, 0.4);
+        }
+
+        .link-info h3 {
+            color: #00c3ff;
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            padding-left: 40px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            padding-left: 40px;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #e0e7ef;
+            font-size: 1rem;
+        }
+
+        .info-label {
+            color: #00c3ff;
+            font-weight: 700;
+            min-width: 80px;
+        }
+
+        .info-value {
+            color: #fff;
+            font-weight: 500;
+        }
+
+        .form-step {
+            display: none;
+        }
+
+        .form-step.active {
+            display: block;
+        }
+
+        .step-title {
+            color: #00c3ff;
+            font-size: 1.8rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 30px;
+            letter-spacing: 1px;
+        }
+
+        .dropzone {
+            background: rgba(35, 53, 84, 0.8);
+            border: 2px dashed rgba(0, 195, 255, 0.6);
+            border-radius: 16px;
+            padding: 30px 20px;
+            text-align: center;
+            margin-bottom: 20px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .dropzone::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 195, 255, 0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .dropzone:hover {
+            background: rgba(26, 35, 58, 0.9);
+            border-color: rgba(0, 195, 255, 0.8);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 195, 255, 0.3);
+        }
+
+        .dropzone:hover::before {
+            left: 100%;
+        }
+
+        .dropzone.dragover {
+            background: rgba(0, 195, 255, 0.1);
+            border-color: #00c3ff;
+            transform: scale(1.02);
+        }
+        
+        .dropzone.has-files {
+            background: rgba(40, 167, 69, 0.1);
+            border-color: #28a745;
+            transform: scale(1.01);
+        }
+        
+        .dropzone.has-files .dropzone-text {
+            color: #28a745;
+        }
+        
+        .dropzone.has-files i {
+            color: #28a745;
+        }
+
+        .dropzone i {
+            font-size: 2.5rem;
+            color: #00c3ff;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .dropzone-text {
+            color: #e0e7ef;
+            font-size: 1.1rem;
+            font-weight: 500;
+            line-height: 1.5;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .file-info {
+            background: rgba(0, 195, 255, 0.1);
+            border: 1px solid rgba(0, 195, 255, 0.3);
+            border-radius: 12px;
+            padding: 15px;
+            margin-top: 15px;
+            color: #00c3ff;
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        .preview-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .preview-img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 10px;
+            border: 2px solid rgba(0, 195, 255, 0.4);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .preview-img:hover {
+            transform: scale(1.1);
+            border-color: #00c3ff;
+        }
+
+        .buttons-container {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 40px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #00c3ff 0%, #0099cc 50%, #00c3ff 100%);
+            border: none;
+            border-radius: 16px;
+            padding: 16px 30px;
+            color: #fff;
+            font-size: 1.1rem;
+            font-weight: 700;
+            font-family: inherit;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 
+                0 8px 25px rgba(0, 195, 255, 0.4),
+                0 0 0 1px rgba(255, 255, 255, 0.1) inset,
+                0 0 30px rgba(0, 195, 255, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            letter-spacing: 0.5px;
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
+            min-width: 150px;
+            justify-content: center;
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 
+                0 15px 35px rgba(0, 195, 255, 0.5),
+                0 0 0 2px rgba(255, 255, 255, 0.2) inset;
+            background: linear-gradient(135deg, #00e0ff 0%, #00c3ff 50%, #00e0ff 100%);
+        }
+
+        .btn-primary:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary:active {
+            transform: translateY(-1px) scale(1.01);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+            border: 1px solid rgba(0, 195, 255, 0.3);
+            color: #00c3ff;
+            font-size: 1rem;
+            font-weight: 600;
+            padding: 16px 30px;
+            border-radius: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            min-width: 150px;
+            justify-content: center;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(0, 195, 255, 0.1);
+            border-color: rgba(0, 195, 255, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .success-message {
+            background: linear-gradient(135deg, rgba(0, 255, 136, 0.1) 0%, rgba(0, 204, 102, 0.05) 100%);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            border-radius: 12px;
+            padding: 15px 20px;
+            margin-top: 20px;
+            color: #00ff88;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 15px rgba(0, 255, 136, 0.2);
+        }
+
+        .footer {
+            position: fixed;
+            bottom: 20px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            color: #7b8794;
+            font-size: 0.9rem;
+            opacity: 0.8;
+            z-index: 10;
+        }
+
+        .footer-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: rgba(22, 33, 62, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 10px 20px;
+            border-radius: 25px;
+            border: 1px solid rgba(0, 195, 255, 0.2);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .separator {
+            color: #00c3ff;
+            font-weight: bold;
+        }
+
+        .company-name {
+            color: #00c3ff;
+            font-weight: 600;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .header-content {
+                padding: 10px 15px;
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .logo {
+                width: 160px;
+                height: 65px;
+            }
+
+            .logo-text p {
+                font-size: 0.85rem;
+                text-align: center;
+            }
+
+            .form-card {
+                padding: 30px 20px;
+                margin: 10px;
+            }
+
+            .form-title {
+                font-size: 1.8rem;
+            }
+
+            .step-title {
+                font-size: 1.5rem;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+                padding-left: 20px;
+            }
+
+            .buttons-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .btn-primary, .btn-secondary {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .form-card {
+                padding: 25px 15px;
+            }
+
+            .form-title {
+                font-size: 1.6rem;
+            }
+
+            .dropzone {
+                padding: 25px 15px;
+            }
+
+            .dropzone i {
+                font-size: 2rem;
+            }
+
+            .dropzone-text {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <div class="logo-container">
+                <div class="logo">
+                    <img src="{{ url_for('static', filename='images/fangio-logo.PNG') }}" alt="FANGIO TELECOM">
+                </div>
+                <div class="logo-text">
+                    <p>Redes Seguras Soluciones Estratégicas</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="main-container">
+        <div class="form-card">
+            <h1 class="form-title">Formulario de Archivos</h1>
+            
+            <!-- Información del Enlace -->
+            <div class="link-info">
+                <h3>Enlace Seleccionado</h3>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <span class="info-label">ID:</span>
+                        <span class="info-value">{{ user_id }}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Sitio A:</span>
+                        <span class="info-value">{{ sitio_a }}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Sitio B:</span>
+                        <span class="info-value">{{ sitio_b }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Formulario -->
+            <form id="autoForm" action="/procesar" method="post" enctype="multipart/form-data" autocomplete="off">
+                <input type="hidden" name="user_id" value="{{ user_id }}">
+                <input type="hidden" name="fila_idx" value="{{ fila_idx }}">
+                
+                <!-- Paso 1: PDFs y eléctricas -->
+                <div class="form-step active" id="step1">
+                    <h2 class="step-title">Paso 1: PDFs y Imágenes Eléctricas</h2>
+                    
+                    <!-- PDF Upload -->
+                    <div class="dropzone" id="pdfDrop">
+                        <i class="fas fa-file-pdf"></i>
+                        <div class="dropzone-text">
+                            Arrastra o selecciona los PDF de la hoja 4. Estudio de información A
+                        </div>
+                        <input type="file" name="pdf_file" accept="application/pdf" multiple class="file-input" id="pdfInput">
+                    </div>
+                    <div class="file-info" id="pdfInfo"></div>
+                    
+                    <!-- Imágenes Eléctricas Upload -->
+                    <div class="dropzone" id="imgElectricasDrop">
+                        <i class="fas fa-bolt"></i>
+                        <div class="dropzone-text">
+                            Sube las imágenes eléctricas para la hoja 4. Estudio de información A (máx 6)
+                        </div>
+                        <input type="file" name="imagenes_electricas" accept="image/*" multiple class="file-input" id="imgElectricasInput">
+                    </div>
+                    <div class="preview-list" id="imgElectricasPreview"></div>
+                    
+                    <!-- Botones -->
+                    <div class="buttons-container">
+                        <button type="button" class="btn-primary" onclick="nextStep(2)">
+                            <i class="fas fa-arrow-right"></i>
+                            Siguiente
+                        </button>
+                        <a href="/" class="btn-secondary">
+                            <i class="fas fa-home"></i>
+                            Volver al Inicio
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Paso 2: Word, KMZ, imagen KML, Excel B, imagen B -->
+                <div class="form-step" id="step2">
+                    <h2 class="step-title">Paso 2: Word, KMZ y Archivos Adicionales</h2>
+                    
+                    <!-- Word Upload -->
+                    <div class="dropzone" id="wordDrop">
+                        <i class="fas fa-file-word"></i>
+                        <div class="dropzone-text">
+                            Selecciona el archivo Word para hoja 1. Analisis de Red y Frecuencia
+                        </div>
+                        <input type="file" name="word_file" accept=".docx" class="file-input" id="wordInput" required>
+                    </div>
+                    <div class="file-info" id="wordInfo"></div>
+                    
+                    <!-- KMZ Upload -->
+                    <div class="dropzone" id="kmzDrop">
+                        <i class="fas fa-file-archive"></i>
+                        <div class="dropzone-text">
+                            Selecciona o arrastra el archivo KMZ aquí de la hoja 3. Formato KMZ
+                        </div>
+                        <input type="file" name="kmz" accept=".kmz" class="file-input" id="kmzInput">
+                    </div>
+                    <div class="file-info" id="kmzInfo"></div>
+                    
+                    <!-- Imagen KMZ Upload -->
+                    <div class="dropzone" id="kmlImgDrop">
+                        <i class="fas fa-image"></i>
+                        <div class="dropzone-text">
+                            Colocar mapa de KMZ (selecciona o arrastra la imagen) de la hoja 3. Formato KMZ
+                        </div>
+                        <input type="file" name="imagen_kmz" accept="image/*" class="file-input" id="kmlImgInput">
+                    </div>
+                    <div class="preview-list" id="kmlImgPreview"></div>
+                    
+                    <!-- Imagen B Upload -->
+                    <div class="dropzone" id="imgB5Drop">
+                        <i class="fas fa-image"></i>
+                        <div class="dropzone-text">
+                            Imagen para hoja 5. Estudio de información B
+                        </div>
+                        <input type="file" name="imagen_b" accept="image/*" class="file-input" id="imgB5Input">
+                    </div>
+                    <div class="preview-list" id="imgB5Preview"></div>
+                    
+                    <!-- Excel B Upload -->
+                    <div class="dropzone" id="excelB5Drop">
+                        <i class="fas fa-file-excel"></i>
+                        <div class="dropzone-text">
+                            Archivo Excel para 5. Estudio de información B
+                        </div>
+                        <input type="file" name="archivo_excel_b" accept=".xls,.xlsx" class="file-input" id="excelB5Input">
+                    </div>
+                    <div class="file-info" id="excelB5Info"></div>
+                    
+                    <!-- Botones -->
+                    <div class="buttons-container">
+                        <button type="button" class="btn-secondary" onclick="prevStep(1)">
+                            <i class="fas fa-arrow-left"></i>
+                            Anterior
+                        </button>
+                        <button type="button" class="btn-primary" onclick="nextStep(3)">
+                            <i class="fas fa-arrow-right"></i>
+                            Siguiente
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Paso 3: Imágenes eléctricas adicionales -->
+                <div class="form-step" id="step3">
+                    <h2 class="step-title">Paso 3: Imágenes Eléctricas Adicionales</h2>
+                    
+                    <!-- Consumo Upload -->
+                    <div class="dropzone" id="imgConsumoDrop">
+                        <i class="fas fa-image"></i>
+                        <div class="dropzone-text">
+                            Especificaciones de consumo (C14:D20)
+                        </div>
+                        <input type="file" name="img_consumo" accept="image/*" class="file-input" id="imgConsumoInput" required>
+                    </div>
+                    <div class="file-info" id="imgConsumoInfo"></div>
+                    
+                    <!-- Configuración Upload -->
+                    <div class="dropzone" id="imgConfiguracionDrop">
+                        <i class="fas fa-image"></i>
+                        <div class="dropzone-text">
+                            Configuración, modelo de radio y antena (E14:G20)
+                        </div>
+                        <input type="file" name="img_configuracion" accept="image/*" class="file-input" id="imgConfiguracionInput" required>
+                    </div>
+                    <div class="file-info" id="imgConfiguracionInfo"></div>
+                    
+                    <!-- Línea de Vista Upload -->
+                    <div class="dropzone" id="imgLineaVistaDrop">
+                        <i class="fas fa-image"></i>
+                        <div class="dropzone-text">
+                            Línea de vista (B39:G55)
+                        </div>
+                        <input type="file" name="img_linea_vista" accept="image/*" class="file-input" id="imgLineaVistaInput" required>
+                    </div>
+                    <div class="file-info" id="imgLineaVistaInfo"></div>
+                    
+                    <!-- Botones -->
+                    <div class="buttons-container">
+                        <button type="button" class="btn-secondary" onclick="prevStep(2)">
+                            <i class="fas fa-arrow-left"></i>
+                            Anterior
+                        </button>
+                        <button type="button" class="btn-primary" onclick="nextStep(4)">
+                            <i class="fas fa-arrow-right"></i>
+                            Siguiente
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Paso 4: Planos A -->
+                <div class="form-step" id="step4">
+                    <h2 class="step-title">Paso 4: Planos A</h2>
+                    
+                    <!-- Plano A Imagen 1 -->
+                    <div class="dropzone" id="planosADrop1">
+                        <i class="fas fa-image"></i>
+                        <div class="dropzone-text">
+                            Imagen 1 (C17:AK60)
+                        </div>
+                        <input type="file" name="planos_a_img1" accept="image/*" class="file-input" id="planosAImg1Input">
+                    </div>
+                    <div class="preview-list" id="planosAImg1Preview"></div>
+                    
+                    <!-- Plano A Imagen 2 -->
+                    <div class="dropzone" id="planosADrop2">
+                        <i class="fas fa-image"></i>
+                        <div class="dropzone-text">
+                            Imagen 2 (C17:AK60)
+                        </div>
+                        <input type="file" name="planos_a_img2" accept="image/*" class="file-input" id="planosAImg2Input">
+                    </div>
+                    <div class="preview-list" id="planosAImg2Preview"></div>
+                    
+                    <!-- Plano A Imagen 3 -->
+                    <div class="dropzone" id="planosADrop3">
+                        <i class="fas fa-image"></i>
+                        <div class="dropzone-text">
+                            Imagen 3 (C17:AK60)
+                        </div>
+                        <input type="file" name="planos_a_img3" accept="image/*" class="file-input" id="planosAImg3Input">
+                    </div>
+                    <div class="preview-list" id="planosAImg3Preview"></div>
+                    
+                    <!-- Botones -->
+                    <div class="buttons-container">
+                        <button type="button" class="btn-secondary" onclick="prevStep(3)">
+                            <i class="fas fa-arrow-left"></i>
+                            Anterior
+                        </button>
+                        <button type="button" class="btn-primary" onclick="nextStep(5)">
+                            <i class="fas fa-arrow-right"></i>
+                            Siguiente
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Paso 5: Planos B -->
+                <div class="form-step" id="step5">
+                    <h2 class="step-title">Paso 5: Planos B</h2>
+                    
+                    <!-- Plano B Imagen 1 -->
+                    <div class="dropzone" id="planosBDrop1">
+                        <i class="fas fa-image"></i>
+                        <div class="dropzone-text">
+                            Imagen 1 (C17:AK60)
+                        </div>
+                        <input type="file" name="planos_b_img1" accept="image/*" class="file-input" id="planosBImg1Input">
+                    </div>
+                    <div class="preview-list" id="planosBImg1Preview"></div>
+                    
+                    <!-- Plano B Imagen 2 -->
+                    <div class="dropzone" id="planosBDrop2">
+                        <i class="fas fa-image"></i>
+                        <div class="dropzone-text">
+                            Imagen 2 (C17:AK60)
+                        </div>
+                        <input type="file" name="planos_b_img2" accept="image/*" class="file-input" id="planosBImg2Input">
+                    </div>
+                    <div class="preview-list" id="planosBImg2Preview"></div>
+                    
+                    <!-- Plano B Imagen 3 -->
+                    <div class="dropzone" id="planosBDrop3">
+                        <i class="fas fa-image"></i>
+                        <div class="dropzone-text">
+                            Imagen 3 (C17:AK60)
+                        </div>
+                        <input type="file" name="planos_b_img3" accept="image/*" class="file-input" id="planosBImg3Input">
+                    </div>
+                    <div class="preview-list" id="planosBImg3Preview"></div>
+                    
+                    <!-- Botones -->
+                    <div class="buttons-container">
+                        <button type="button" class="btn-secondary" onclick="prevStep(4)">
+                            <i class="fas fa-arrow-left"></i>
+                            Anterior
+                        </button>
+                        <button type="button" class="btn-primary" onclick="nextStep(6)">
+                            <i class="fas fa-arrow-right"></i>
+                            Siguiente
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Paso 6: Fotos A -->
+                <div class="form-step" id="step6">
+                    <h2 class="step-title">Paso 6: Fotos del Sitio A</h2>
+                    
+                    <!-- Fotos A -->
+                    <div class="dropzone" id="fotosADrop1">
+                        <i class="fas fa-camera"></i>
+                        <div class="dropzone-text">
+                            GPS con coordenadas de la torre
+                        </div>
+                        <input type="file" name="foto_a_1" accept="image/*" class="file-input" id="fotoA1Input">
+                    </div>
+                    <div class="preview-list" id="fotoA1Preview"></div>
+                    
+                    <div class="dropzone" id="fotosADrop2">
+                        <i class="fas fa-camera"></i>
+                        <div class="dropzone-text">
+                            Foto del sitio
+                        </div>
+                        <input type="file" name="foto_a_2" accept="image/*" class="file-input" id="fotoA2Input">
+                    </div>
+                    <div class="preview-list" id="fotoA2Preview"></div>
+                    
+                    <div class="dropzone" id="fotosADrop3">
+                        <i class="fas fa-camera"></i>
+                        <div class="dropzone-text">
+                            Foto del equipo
+                        </div>
+                        <input type="file" name="foto_a_3" accept="image/*" class="file-input" id="fotoA3Input">
+                    </div>
+                    <div class="preview-list" id="fotoA3Preview"></div>
+                    
+                    <div class="dropzone" id="fotosADrop4">
+                        <i class="fas fa-camera"></i>
+                        <div class="dropzone-text">
+                            Foto de la antena
+                        </div>
+                        <input type="file" name="foto_a_4" accept="image/*" class="file-input" id="fotoA4Input">
+                    </div>
+                    <div class="preview-list" id="fotoA4Preview"></div>
+                    
+                    <div class="dropzone" id="fotosADrop5">
+                        <i class="fas fa-camera"></i>
+                        <div class="dropzone-text">
+                            Foto de la instalación
+                        </div>
+                        <input type="file" name="foto_a_5" accept="image/*" class="file-input" id="fotoA5Input">
+                    </div>
+                    <div class="preview-list" id="fotoA5Preview"></div>
+                    
+                    <div class="dropzone" id="fotosADrop6">
+                        <i class="fas fa-camera"></i>
+                        <div class="dropzone-text">
+                            Foto del cableado
+                        </div>
+                        <input type="file" name="foto_a_6" accept="image/*" class="file-input" id="fotoA6Input">
+                    </div>
+                    <div class="preview-list" id="fotoA6Preview"></div>
+                    
+                    <div class="dropzone" id="fotosADrop7">
+                        <i class="fas fa-camera"></i>
+                        <div class="dropzone-text">
+                            Foto del panel solar
+                        </div>
+                        <input type="file" name="foto_a_7" accept="image/*" class="file-input" id="fotoA7Input">
+                    </div>
+                    <div class="preview-list" id="fotoA7Preview"></div>
+                    
+                    <div class="dropzone" id="fotosADrop8">
+                        <i class="fas fa-camera"></i>
+                        <div class="dropzone-text">
+                            Foto del gabinete
+                        </div>
+                        <input type="file" name="foto_a_8" accept="image/*" class="file-input" id="fotoA8Input">
+                    </div>
+                    <div class="preview-list" id="fotoA8Preview"></div>
+                    
+                    <div class="dropzone" id="fotosADrop9">
+                        <i class="fas fa-camera"></i>
+                        <div class="dropzone-text">
+                            Foto general del sitio
+                        </div>
+                        <input type="file" name="foto_a_9" accept="image/*" class="file-input" id="fotoA9Input">
+                    </div>
+                    <div class="preview-list" id="fotoA9Preview"></div>
+                    
+                    <!-- Botones -->
+                    <div class="buttons-container">
+                        <button type="button" class="btn-secondary" onclick="prevStep(5)">
+                            <i class="fas fa-arrow-left"></i>
+                            Anterior
+                        </button>
+                        <button type="button" class="btn-primary" onclick="nextStep(7)">
+                            <i class="fas fa-arrow-right"></i>
+                            Siguiente
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Paso 7: Fotos B -->
+                <div class="form-step" id="step7">
+                    <h2 class="step-title">Paso 7: Fotos del Sitio B</h2>
+                    
+                    <!-- Fotos B -->
+                    <div class="dropzone" id="fotosBDrop1">
+                        <i class="fas fa-camera"></i>
+                        <div class="dropzone-text">
+                            GPS con coordenadas de la torre
+                        </div>
+                        <input type="file" name="foto_b_1" accept="image/*" class="file-input" id="fotoB1Input">
+                    </div>
+                    <div class="preview-list" id="fotoB1Preview"></div>
+                    
+                    <div class="dropzone" id="fotosBDrop2">
+                        <i class="fas fa-camera"></i>
+                        <div class="dropzone-text">
+                            Foto del sitio
+                        </div>
+                        <input type="file" name="foto_b_2" accept="image/*" class="file-input" id="fotoB2Input">
+                    </div>
+                    <div class="preview-list" id="fotoB2Preview"></div>
+                    
+                    <div class="dropzone" id="fotosBDrop3">
+                        <i class="fas fa-camera"></i>
+                        <div class="dropzone-text">
+                            Foto del equipo
+                        </div>
+                        <input type="file" name="foto_b_3" accept="image/*" class="file-input" id="fotoB3Input">
+                    </div>
+                    <div class="preview-list" id="fotoB3Preview"></div>
+                    
+                    <div class="dropzone" id="fotosBDrop4">
+                        <i class="fas fa-camera"></i>
+                        <div class="dropzone-text">
+                            Foto de la antena
+                        </div>
+                        <input type="file" name="foto_b_4" accept="image/*" class="file-input" id="fotoB4Input">
+                    </div>
+                    <div class="preview-list" id="fotoB4Preview"></div>
+                    
+                    <div class="dropzone" id="fotosBDrop5">
+                        <i class="fas fa-camera"></i>
+                        <div class="dropzone-text">
+                            Foto de la instalación
+                        </div>
+                        <input type="file" name="foto_b_5" accept="image/*" class="file-input" id="fotoB5Input">
+                    </div>
+                    <div class="preview-list" id="fotoB5Preview"></div>
+                    
+                    <div class="dropzone" id="fotosBDrop6">
+                        <i class="fas fa-camera"></i>
+                        <div class="dropzone-text">
+                            Foto del cableado
+                        </div>
+                        <input type="file" name="foto_b_6" accept="image/*" class="file-input" id="fotoB6Input">
+                    </div>
+                    <div class="preview-list" id="fotoB6Preview"></div>
+                    
+                    <div class="dropzone" id="fotosBDrop7">
+                        <i class="fas fa-camera"></i>
+                        <div class="dropzone-text">
+                            Foto del panel solar
+                        </div>
+                        <input type="file" name="foto_b_7" accept="image/*" class="file-input" id="fotoB7Input">
+                    </div>
+                    <div class="preview-list" id="fotoB7Preview"></div>
+                    
+                    <div class="dropzone" id="fotosBDrop8">
+                        <i class="fas fa-camera"></i>
+                        <div class="dropzone-text">
+                            Foto del gabinete
+                        </div>
+                        <input type="file" name="foto_b_8" accept="image/*" class="file-input" id="fotoB8Input">
+                    </div>
+                    <div class="preview-list" id="fotoB8Preview"></div>
+                    
+                    <div class="dropzone" id="fotosBDrop9">
+                        <i class="fas fa-camera"></i>
+                        <div class="dropzone-text">
+                            Foto de la configuración
+                        </div>
+                        <input type="file" name="foto_b_9" accept="image/*" class="file-input" id="fotoB9Input">
+                    </div>
+                    <div class="preview-list" id="fotoB9Preview"></div>
+                    
+                    <div class="dropzone" id="fotosBDrop10">
+                        <i class="fas fa-camera"></i>
+                        <div class="dropzone-text">
+                            Foto de Agregador (Site Entry)
+                        </div>
+                        <input type="file" name="foto_b_10" accept="image/*" class="file-input" id="fotoB10Input">
+                    </div>
+                    <div class="preview-list" id="fotoB10Preview"></div>
+                    
+                    <!-- Botones -->
+                    <div class="buttons-container">
+                        <button type="button" class="btn-secondary" onclick="prevStep(6)">
+                            <i class="fas fa-arrow-left"></i>
+                            Anterior
+                        </button>
+                        <button type="submit" class="btn-primary">
+                            <i class="fas fa-check"></i>
+                            Procesar Archivos
+                        </button>
+                    </div>
+                </div>
+            </form>
+
+            <!-- Mensaje de Éxito -->
+            <div class="success-message" id="successMessage" style="display: none;">
+                <i class="fas fa-check-circle"></i>
+                <span>Plantilla de llenado cargada correctamente</span>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <span>&copy; 2025 Realizado por Efren Alexis Hernandez Mendez</span>
+            <span class="separator">|</span>
+            <span class="company-name">FANGIO TELECOM</span>
+        </div>
+    </footer>
+
+    <script>
+        // Efecto de aparición para la tarjeta principal
+        document.addEventListener('DOMContentLoaded', function() {
+            const formCard = document.querySelector('.form-card');
+            if (formCard) {
+                formCard.style.opacity = '0';
+                formCard.style.transform = 'translateY(30px)';
+                
+                setTimeout(() => {
+                    formCard.style.transition = 'all 0.8s ease';
+                    formCard.style.opacity = '1';
+                    formCard.style.transform = 'translateY(0)';
+                }, 300);
+            }
+
+            // Mostrar mensaje de éxito
+            setTimeout(() => {
+                const successMessage = document.getElementById('successMessage');
+                if (successMessage) {
+                    successMessage.style.display = 'flex';
+                    successMessage.style.opacity = '0';
+                    successMessage.style.transform = 'translateY(10px)';
+                    
+                    setTimeout(() => {
+                        successMessage.style.transition = 'all 0.5s ease';
+                        successMessage.style.opacity = '1';
+                        successMessage.style.transform = 'translateY(0)';
+                    }, 100);
+                }
+            }, 1000);
+        });
+
+        // Efecto de hover para el logo
+        document.addEventListener('DOMContentLoaded', function() {
+            const logo = document.querySelector('.logo');
+            if (logo) {
+                logo.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-3px) scale(1.02)';
+                });
+                
+                logo.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                });
+            }
+        });
+
+        // Lógica de pasos
+        function showStep(step) {
+            document.querySelectorAll('.form-step').forEach((el) => {
+                el.classList.remove('active');
+            });
+            const stepElement = document.getElementById('step' + step);
+            if (stepElement) {
+                stepElement.classList.add('active');
+            }
+        }
+
+        function nextStep(step) {
+            showStep(step);
+        }
+
+        function prevStep(step) {
+            showStep(step);
+        }
+
+        // Funcionalidad de drag and drop mejorada
+        function setupAllDropzones() {
+            const dropzones = document.querySelectorAll('.dropzone');
+            
+            dropzones.forEach(dropzone => {
+                const fileInput = dropzone.querySelector('.file-input');
+                
+                if (!fileInput) {
+                    console.error('No se encontró file-input en dropzone:', dropzone.id);
+                    return;
+                }
+                
+                // Limpiar eventos previos
+                dropzone.removeEventListener('click', dropzone._clickHandler);
+                dropzone.removeEventListener('dragover', dropzone._dragoverHandler);
+                dropzone.removeEventListener('dragleave', dropzone._dragleaveHandler);
+                dropzone.removeEventListener('drop', dropzone._dropHandler);
+                fileInput.removeEventListener('change', fileInput._changeHandler);
+                
+                // Crear nuevos handlers
+                dropzone._clickHandler = () => {
+                    console.log('Click en dropzone:', dropzone.id);
+                    fileInput.click();
+                };
+                
+                dropzone._dragoverHandler = (e) => {
+                    e.preventDefault();
+                    dropzone.classList.add('dragover');
+                };
+                
+                dropzone._dragleaveHandler = () => {
+                    dropzone.classList.remove('dragover');
+                };
+                
+                dropzone._dropHandler = (e) => {
+                    e.preventDefault();
+                    dropzone.classList.remove('dragover');
+                    const files = e.dataTransfer.files;
+                    console.log('Archivos soltados en', dropzone.id, ':', files.length);
+                    fileInput.files = files;
+                    handleFileSelect(fileInput);
+                };
+                
+                fileInput._changeHandler = () => {
+                    console.log('Archivos seleccionados en', dropzone.id, ':', fileInput.files.length);
+                    handleFileSelect(fileInput);
+                };
+                
+                // Agregar eventos
+                dropzone.addEventListener('click', dropzone._clickHandler);
+                dropzone.addEventListener('dragover', dropzone._dragoverHandler);
+                dropzone.addEventListener('dragleave', dropzone._dragleaveHandler);
+                dropzone.addEventListener('drop', dropzone._dropHandler);
+                fileInput.addEventListener('change', fileInput._changeHandler);
+            });
+        }
+
+        function handleFileSelect(input) {
+            const files = input.files;
+            const dropzone = input.closest('.dropzone');
+            const dropzoneId = dropzone.id;
+            
+            console.log('handleFileSelect llamado para:', dropzoneId, 'con', files.length, 'archivos');
+            
+            if (files.length > 0) {
+                let fileInfo = '';
+                for (let i = 0; i < files.length; i++) {
+                    fileInfo += `${files[i].name} (${formatFileSize(files[i].size)})`;
+                    if (i < files.length - 1) fileInfo += '<br>';
+                }
+                
+                console.log('Información de archivos:', fileInfo);
+                
+                // Mostrar información del archivo
+                const infoId = dropzoneId.replace('Drop', 'Info');
+                const infoElement = document.getElementById(infoId);
+                if (infoElement) {
+                    infoElement.innerHTML = fileInfo;
+                    console.log('Información mostrada en:', infoId);
+                } else {
+                    console.warn('No se encontró elemento info:', infoId);
+                }
+                
+                // Mostrar preview de imágenes
+                const previewId = dropzoneId.replace('Drop', 'Preview');
+                const previewElement = document.getElementById(previewId);
+                if (previewElement && files[0].type.startsWith('image/')) {
+                    previewElement.innerHTML = '';
+                    
+                    for (let file of files) {
+                        if (file.type.startsWith('image/')) {
+                            const reader = new FileReader();
+                            reader.onload = function(e) {
+                                const img = document.createElement('img');
+                                img.src = e.target.result;
+                                img.className = 'preview-img';
+                                previewElement.appendChild(img);
+                                console.log('Preview de imagen agregada para:', file.name);
+                            };
+                            reader.readAsDataURL(file);
+                        }
+                    }
+                } else if (previewElement) {
+                    console.log('Preview element encontrado pero no es imagen:', files[0].type);
+                } else {
+                    console.log('No se encontró preview element:', previewId);
+                }
+                
+                // Cambiar estilo del dropzone para indicar que tiene archivos
+                dropzone.classList.add('has-files');
+                dropzone.style.borderColor = '#00ff00';
+                dropzone.style.backgroundColor = 'rgba(0, 255, 0, 0.1)';
+            } else {
+                // Remover archivos
+                dropzone.classList.remove('has-files');
+                dropzone.style.borderColor = '';
+                dropzone.style.backgroundColor = '';
+                
+                // Limpiar información
+                const infoId = dropzoneId.replace('Drop', 'Info');
+                const infoElement = document.getElementById(infoId);
+                if (infoElement) {
+                    infoElement.innerHTML = '';
+                }
+                
+                const previewId = dropzoneId.replace('Drop', 'Preview');
+                const previewElement = document.getElementById(previewId);
+                if (previewElement) {
+                    previewElement.innerHTML = '';
+                }
+            }
+        }
+
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        // Configurar todos los dropzones al cargar la página
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM cargado, configurando dropzones...');
+            setupAllDropzones();
+            
+            // Verificar que todos los dropzones estén configurados
+            const dropzones = document.querySelectorAll('.dropzone');
+            console.log('Total de dropzones encontrados:', dropzones.length);
+            
+            dropzones.forEach(dropzone => {
+                console.log('Dropzone configurado:', dropzone.id);
+            });
+        });
+
+
+
+        // Validación del formulario antes de enviar
+        document.getElementById('autoForm').addEventListener('submit', function(e) {
+            console.log('Formulario enviándose...');
+            
+            // Verificar archivos seleccionados
+            const fileInputs = document.querySelectorAll('.file-input');
+            let totalFiles = 0;
+            
+            fileInputs.forEach(input => {
+                if (input.files.length > 0) {
+                    totalFiles += input.files.length;
+                    console.log('Archivos en', input.name, ':', input.files.length);
+                    for (let i = 0; i < input.files.length; i++) {
+                        console.log('  -', input.files[i].name, '(', input.files[i].size, 'bytes)');
+                    }
+                }
+            });
+            
+            console.log('Total de archivos a enviar:', totalFiles);
+            
+            // Mostrar indicador de carga
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Procesando...';
+            submitBtn.disabled = true;
+            
+            // Restaurar el botón después de un tiempo (en caso de error)
+            setTimeout(() => {
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }, 10000);
+        });
+    </script>
+</body>
+</html> 

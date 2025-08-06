@@ -1,0 +1,26 @@
+<!-- Fragmento de checkboxes para Site Survey -->
+<div class="form-step" id="stepSiteSurveyCheckboxes">
+  <h2 style="text-align:center; color:#00c3ff;">Checklist Site Survey</h2>
+  <form id="siteSurveyCheckboxForm">
+    <div style="margin-bottom:10px;">
+      <input type="checkbox" id="chk_urbana" name="chk_urbana" value="1" {% if chk_urbana %}checked{% endif %}>
+      <label for="chk_urbana">Zona urbana</label>
+    </div>
+    <div style="margin-bottom:10px;">
+      <input type="checkbox" id="chk_suburbana" name="chk_suburbana" value="1" {% if chk_suburbana %}checked{% endif %}>
+      <label for="chk_suburbana">Zona suburbana</label>
+    </div>
+    <div style="margin-bottom:10px;">
+      <input type="checkbox" id="chk_rural" name="chk_rural" value="1" {% if chk_rural %}checked{% endif %}>
+      <label for="chk_rural">Zona rural</label>
+    </div>
+    <div style="margin-bottom:10px;">
+      <input type="checkbox" id="chk_ejidal" name="chk_ejidal" value="1" {% if chk_ejidal %}checked{% endif %}>
+      <label for="chk_ejidal">Zona ejidal</label>
+    </div>
+    <div style="margin-bottom:10px;">
+      <input type="checkbox" id="chk_pueblo_magico" name="chk_pueblo_magico" value="1" {% if chk_pueblo_magico %}checked{% endif %}>
+      <label for="chk_pueblo_magico">Pueblo mágico</label>
+    </div>
+  </form>
+</div>

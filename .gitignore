@@ -1,0 +1,67 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Virtual environments
+venv/
+env/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Temporary files
+Temp/
+temp/
+*.tmp
+
+# Uploads (opcional - si no quieres subir archivos subidos por usuarios)
+uploads/
+site_survey/
+ptmp_site_survey/
+
+# Excel files with sensitive data (opcional)
+*.xlsx
+*.xls
+
+# Compiled executables
+*.exe
+
+# Node modules (si usas Node.js)
+node_modules/
+
+# Ngrok
+ngrok.exe 

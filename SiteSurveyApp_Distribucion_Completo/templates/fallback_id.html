@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ titulo or 'Formulario' }}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #0a192f 0%, #1a233a 60%, #233554 100%);
+            min-height: 100vh;
+            margin: 0;
+            font-family: 'Montserrat', Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .main-card {
+            background: rgba(24,36,58,0.97);
+            border-radius: 24px;
+            box-shadow: 0 8px 40px #00c3ff55, 0 1.5px 0 #00c3ff44 inset;
+            padding: 44px 34px 34px 34px;
+            min-width: 320px;
+            max-width: 420px;
+            width: 100%;
+            margin-top: 32px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .main-title {
+            margin: 0 0 8px 0;
+            font-size: 2rem;
+            font-weight: 900;
+            color: #00c3ff;
+            letter-spacing: 1.5px;
+            text-shadow: 0 4px 24px #00c3ff55, 0 2px 12px #00c3ff33;
+            text-align: center;
+        }
+        .error-box {
+            background:#ffeaea;
+            border:2px solid #ff3b3b;
+            color:#b80000;
+            font-weight:700;
+            padding:14px 0 14px 0;
+            margin-bottom:18px;
+            border-radius:12px;
+            box-shadow:0 2px 12px #ff3b3b22;
+            width:100%;
+            text-align:center;
+            font-size:1.08rem;
+        }
+        .main-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+            background: linear-gradient(90deg, #00c3ff 60%, #2d89ef 100%);
+            color: #192133;
+            font-size: 1.15rem;
+            font-weight: 700;
+            border: none;
+            border-radius: 14px;
+            padding: 16px 0;
+            width: 100%;
+            text-decoration: none;
+            box-shadow: 0 2px 18px #00c3ff33;
+            transition: background 0.18s, color 0.18s, transform 0.13s, box-shadow 0.18s;
+            outline: none;
+            margin-bottom: 12px;
+        }
+        .main-btn i {
+            font-size: 1.3rem;
+            color: #00c3ff;
+        }
+        .main-btn:hover, .main-btn:focus {
+            background: linear-gradient(90deg, #2d89ef 60%, #00c3ff 100%);
+            color: #fff;
+            transform: translateY(-2px) scale(1.03);
+            box-shadow: 0 4px 32px #00c3ffcc, 0 1.5px 0 #fff2 inset;
+        }
+        .back-link {
+            text-align: center;
+            margin-top: 10px;
+        }
+        .back-link a {
+            color: #00c3ff;
+            text-decoration: none;
+            font-size: 1rem;
+        }
+        .back-link a:hover {
+            text-decoration: underline;
+        }
+        .form-group {
+            width: 100%;
+            margin-bottom: 18px;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: none;
+            margin-bottom: 12px;
+            background: #233554;
+            color: #e0e7ef;
+            font-size: 1.08rem;
+        }
+        label {
+            color:#00c3ff;
+            font-weight:700;
+            margin-bottom:8px;
+            display:block;
+        }
+    </style>
+</head>
+<body>
+    <div class="main-card">
+        <div class="main-title">{{ titulo or 'Formulario' }}</div>
+        <div class="error-box">
+            <i class="fa-solid fa-triangle-exclamation" style="color:#ff3b3b;margin-right:8px;"></i>
+            {{ mensaje_error }}
+        </div>
+        {% if mostrar_form %}
+        <form method="get" action="{{ ruta_form }}" style="width:100%;margin-bottom:0;">
+            <div class="form-group">
+                <label for="user_id">ID:</label>
+                <input type="text" name="user_id" id="user_id" required placeholder="{{ placeholder or 'Ingresa tu ID' }}">
+            </div>
+            <button type="submit" class="main-btn"><i class="fa-solid fa-search"></i> Buscar</button>
+        </form>
+        {% endif %}
+        <div class="back-link" style="margin-top:18px;">
+            <a href="/">← Volver al inicio</a>
+        </div>
+    </div>
+</body>
+</html> 
