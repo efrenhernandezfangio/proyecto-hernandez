@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: site-survey-app-simple
+    env: python
+    buildCommand: pip install -r requirements-minimal.txt
+    startCommand: gunicorn app-simple:app --bind 0.0.0.0:$PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.9.18 
