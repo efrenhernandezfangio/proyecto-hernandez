@@ -69,7 +69,7 @@ app = Flask(__name__)
 import os
 base_dir = os.path.dirname(os.path.abspath(__file__))
 UPLOAD_FOLDER = os.path.join(base_dir, 'site_survey')
-GOOGLE_SHEETS_CSV_URL = 'https://docs.google.com/spreadsheets/d/1sfOY1Y3dNVCOT8zyCMzpgARv-R_jRE-S/export?format=csv'
+GOOGLE_SHEETS_CSV_URL = 'https://docs.google.com/spreadsheets/d/1sfOY1Y3dNVCOT8zyCMzpgARv-R_jRE-S/export?format=csv&gid=0'
 @app.route('/site_survey_checkboxes', methods=['GET'])
 def site_survey_checkboxes():
     import pandas as pd

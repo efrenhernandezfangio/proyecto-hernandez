@@ -17,7 +17,7 @@ app.config['UPLOAD_FOLDER'] = os.path.join(base_dir, 'uploads')
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB max file size
 
 # URL de Google Sheets
-GOOGLE_SHEETS_CSV_URL = 'https://docs.google.com/spreadsheets/d/1sfOY1Y3dNVCOT8zyCMzpgARv-R_jRE-S/export?format=csv'
+GOOGLE_SHEETS_CSV_URL = 'https://docs.google.com/spreadsheets/d/1sfOY1Y3dNVCOT8zyCMzpgARv-R_jRE-S/export?format=csv&gid=0'
 
 def check_database_connection():
     """Verifica si la base de datos está disponible"""
