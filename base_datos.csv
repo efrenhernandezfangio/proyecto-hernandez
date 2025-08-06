@@ -1,0 +1,6 @@
+ID,NOMBRE DEL SITIO,ESTADO,CLUSTER,Tipo de Zona,Tipo de Camino,LATITUD (TORRE),LONGITUD (TORRE),Altitud (msnm),PROPIETARIO,TIPO DE SITIO
+3100321513E,Lozano Zavala,Durango,0,Rural,Terracería,25.11619,-105.17181,2040.026,CFE,Terreno
+5140066159E,Sitio Ejemplo 1,Chihuahua,1,Urbana,Asfalto,28.63528,-106.08889,1435.0,CFE,Sobre Suelo
+5140066159F,Sitio Ejemplo 2,Sonora,2,Suburbana,Terracería,27.4963,-109.9408,27.0,CFE,Terreno
+5140066159G,Sitio Ejemplo 3,Nuevo León,3,Rural,Terracería,25.6866,-100.3161,512.0,CFE,Sobre Suelo
+5140066159H,Sitio Ejemplo 4,Jalisco,4,Urbana,Asfalto,20.6597,-103.3496,1566.0,CFE,Terreno 
